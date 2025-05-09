@@ -1,0 +1,12 @@
+<!-- xml reconstructed by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io -->
+<root>
+	<styles />
+	<scripts>
+		<include src="s2r://panorama/scripts/custom_game/suggest_ability.js" />
+		<include src="s2r://panorama/scripts/custom_game/hero.js" />
+	</scripts>
+
+	<Panel class="hero" onmouseover="show_hero_data()" onmouseout="UIHideCustomLayoutTooltip( hero_data )">
+		<DOTAHeroImage class="hero_image" heroname="" heroimagestyle="landscape" onactivate="get_click_hero()" style="" />
+	</Panel>
+</root>

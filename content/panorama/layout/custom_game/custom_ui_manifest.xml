@@ -4,5 +4,6 @@
     </scripts>
     <Panel>
         <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/hud.xml" />
+        <CustomUIElement type="HeroSelection" layoutfile="s2r://panorama/layout/custom_game/main.xml" />
     </Panel>
 </root>

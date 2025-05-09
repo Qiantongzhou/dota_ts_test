@@ -1,0 +1,26 @@
+
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/custom_game/ability_book.css" />
+	</styles>
+	<scripts>
+		<!-- <include src="s2r://panorama/scripts/custom_game/ban_player.vjs_c" /> -->
+		<include src="s2r://panorama/scripts/custom_game/ability_book.js" />
+		
+		 
+	</scripts>
+
+	<snippets>
+		<snippet name="single_ability">
+			<Panel  id="single_ability" class="single_ability" onmouseover="" onmouseout="DOTAHideAbilityTooltip()" style="border: 2px solid white;">
+				<DOTAAbilityImage class="ability_image" abilityname="" onactivate="" style="width:100px;height:100px;" />
+			</Panel>
+		</snippet>
+	</snippets>
+	<Panel class="book_panel" hittest="false">
+		<Panel id="ability_book_panel" class="ability_book_panel">
+				  
+		</Panel>
+	</Panel>
+</root>
+         

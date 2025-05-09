@@ -1,0 +1,15 @@
+<!-- xml reconstructed by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io -->
+<root>
+	<script><![CDATA[
+		//删除技能
+		function remove_ability(){
+			Game.EmitSound( "General.SelectAction");
+			GameEvents.SendCustomGameEventToServer("remove_ability",{name:$.GetContextPanel().GetChild(0).abilityname});
+			$.GetContextPanel().FindAncestor("remove_ability_plane").visible = false
+			$.GetContextPanel().DeleteAsync(0)
+		}
+	]]></script>
+	<Panel>
+		<DOTAAbilityImage abilityname="" onactivate="remove_ability()" style="width:100px;" />
+	</Panel>
+</root>

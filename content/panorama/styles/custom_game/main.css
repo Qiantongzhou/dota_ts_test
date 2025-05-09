@@ -1,0 +1,527 @@
+/* Prettified by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io */
+#select_panel
+{
+	width: 100%;
+	height: 1080px;
+
+}
+#hero_panel
+{
+	width: 45%;
+	height: 35%;
+	background-color: #212726;
+	x: 0px;
+	y: 4%;
+	flow-children: right-wrap;
+	border: 2px solid white;
+	z-index:1;
+}
+
+#other_hero_panel
+{
+	x: 0px;
+	y: 4%;
+	width: 1174px;
+	height: 1040px;
+	background-color: #363636;
+	z-index:2;
+}
+
+.rank_case:hover
+{
+	background-color: #8d9698;
+}
+
+Button.Selected
+{
+	background-color:gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #F89F15 ) );
+}
+
+Button.Selected:hover
+{
+	background-color:gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #F89F15 ) );
+}
+
+#other_hero_panel_container
+{
+	width: 1174px;
+	height: 1040px;
+	background-color: #363636;
+	flow-children: right-wrap;
+	border: 2px solid white;
+	z-index:2;
+}
+
+.stat_data_bar
+{
+	opacity: 0.8;
+}
+
+.stat_data_bar .ProgressBarLeft
+{
+	background-color: #00CED1;
+}
+
+#show_difficulty
+{
+	background-image: url("s2r://panorama/images/custom_game/gold_ring_png.vtex");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#add_vip
+{
+	width: 700px;
+	height: 500px;
+	background-color: #212726;
+	x: 60%;
+	y: 50px;
+	flow-children: down-wrap;
+	border: 2px solid white;
+	z-index:1;
+}
+
+#add_vip_way
+{
+	flow-children: right-wrap;
+}
+
+#end
+{
+	width: 1950px;
+	height: 1040px;
+	background-color: #212726;
+	x: 0px;
+	y: 40px;
+	flow-children: down-wrap;
+	border: 2px solid white;
+}
+
+#good_end_panel
+{
+	flow-children: down-wrap;
+}
+
+#bad_end_panel
+{
+	flow-children: down-wrap;
+}
+
+.end_panel
+{
+	flow-children: right-wrap;
+}
+
+.kda
+{
+	width: 160px;
+	flow-children: right-wrap;
+}
+
+.kda_value
+{
+	width: 50px;
+}
+
+.end_ability_panel
+{
+	width: 700px;
+	flow-children: right-wrap;
+}
+
+.end_item_panel
+{
+	flow-children: right-wrap;
+}
+
+#key_map
+{
+	width: 1200px;
+	height: 500px;
+	x: 0px;
+	y: 100px;
+	flow-children: down-wrap;
+}
+
+#key_text
+{
+	height: 50px;
+	flow-children: right-wrap;
+	background-color: #212726;
+}
+
+#key_text TextEntry
+{
+	width: 50px;
+	height: 50px;
+	flow-children: right-wrap;
+	background-color: #212726;
+}
+
+#key_ability
+{
+	height: 50px;
+	flow-children: right-wrap;
+	background-color: #212726;
+}
+
+#ability_panel
+{
+	width: 45%;
+	height: 8%;
+	background-color: #212726;
+	x: 45%;
+	y: 4%;
+	flow-children: right-wrap;
+	border: 2px solid white;
+}
+
+#selected_abilitys_panel {
+	width: 45%;
+	height: 55%;
+	background-color: #212726;
+	
+	x: 45%; /* Corrected property for horizontal positioning */
+	y: 12%; /* Corrected property for vertical positioning */
+
+	border: 2px solid white;
+}
+
+#display_panel
+{
+	width: 45%;
+	height: 30%;
+	background-color: #212726;
+	x: 0%;
+	y: 70%;
+	flow-children: down-wrap;
+	border: 2px solid white;
+}
+
+#map_info_panel
+{
+	width: 30%;
+	height: 28%;
+	background-color: #212726;
+	x: 60%;
+	y: 72%;
+	border: 2px solid white;
+}
+#PortraitGroup{
+	
+	height: 40%;
+	x: 0%;
+	y: 20%;
+	border: 2px solid white;
+}
+#selected_abilitys{
+	width: 100%;
+	height: 20%;
+	background-color: #212726;
+	x: 0%;
+	y: 60%;
+	flow-children: right-wrap;
+	border: 2px solid white;
+}
+#particle_panel
+{
+	width: 644px;
+	height: 400px;
+	x: 0px;
+	y: 100px;
+	flow-children: down-wrap;
+}
+
+.particle_container
+{
+	flow-children: right-wrap;
+}
+
+#vip_panel
+{
+	x: 90%;
+	y: 5px;
+	background-color: #212726;
+	flow-children: right-wrap;
+	border: 2px solid white;
+}
+
+#vip_panel:hover
+{
+	background-color: #8d9698;
+}
+
+.ability_image
+{
+	width: 50px;
+	height: 50px;
+}
+
+.hero
+{
+	opacity: 1;
+	border: 1px solid white;
+	width: 14.21%;
+	height: 20%;
+}
+
+.draw
+{
+	opacity: 1;
+}
+
+TextEntry
+{
+	width: 50px;
+	height: 50px;
+	font-size:40px;
+	color:white;
+	background-color: #8d9698;
+	border: 2px solid #212726;
+}
+
+TextEntry:hover
+{
+	width: 50px;
+	height: 50px;
+	background-color: #8d9698;
+	border: 2px solid white;
+}
+
+#patreon2:hover
+{
+	opacity: 1;
+	wash-color: white;
+	background-color: white;
+}
+
+#patreon2
+{
+	width: 100px;
+	height: 100px;
+	x:150px;
+	y:3px;
+	margin-top: 10px;
+	background-image: url("s2r://panorama/images/custom_game/patreon_small_png_png.vtex");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	tooltip-position: bottom;
+	tooltip-body-position: 50% 50%;
+	wash-color: #CDF;
+	opacity: 0.5;
+	transition-property: opacity;
+	transition-duration: 0.2s;
+	img-shadow: 0px 0px 3px 3 black;
+}
+
+#recreation
+{
+	width: 38px;
+	height: 38px;
+	x:230px;
+	y:0px;
+	margin-top: 10px;
+	background-image: url("s2r://panorama/images/custom_game/recreation_png_png.vtex");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	tooltip-position: bottom;
+	tooltip-body-position: 50% 50%;
+	wash-color: #CDF;
+	opacity: 0.5;
+	transition-property: opacity;
+	transition-duration: 0.2s;
+	img-shadow: 0px 0px 3px 3 black;
+}
+
+#recreation:hover
+{
+	opacity: 1;
+	wash-color: white;
+}
+
+#hot_key
+{
+	width: 38px;
+	height: 38px;
+	x:270px;
+	y:0px;
+	margin-top: 10px;
+	background-image: url("s2r://panorama/images/custom_game/recreation_png_png.vtex");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	tooltip-position: bottom;
+	tooltip-body-position: 50% 50%;
+	wash-color: #CDF;
+	opacity: 0.5;
+	transition-property: opacity;
+	transition-duration: 0.2s;
+	img-shadow: 0px 0px 3px 3 black;
+}
+
+#hot_key:hover
+{
+	opacity: 1;
+	wash-color: white;
+}
+
+#aifadian
+{
+	width: 30px;
+	height: 30px;
+	x:190px;
+	y:3px;
+	margin-top: 10px;
+	background-image: url("s2r://panorama/images/custom_game/afdian_png_png.vtex");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	tooltip-position: bottom;
+	tooltip-body-position: 50% 50%;
+	wash-color: #CDF;
+	opacity: 0.5;
+	transition-property: opacity;
+	transition-duration: 0.2s;
+	img-shadow: 0px 0px 3px 3 black;
+}
+
+#aifadian:hover
+{
+	opacity: 1;
+	wash-color: white;
+}
+
+#aifadian2:hover
+{
+	opacity: 1;
+	wash-color: white;
+}
+
+#close2:hover
+{
+	background-color: white;
+	color:black;
+}
+
+#aifadian2
+{
+	width: 100px;
+	height: 100px;
+	x:190px;
+	y:3px;
+	margin-top: 10px;
+	background-image: url("s2r://panorama/images/custom_game/afdian_png_png.vtex");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	tooltip-position: bottom;
+	tooltip-body-position: 50% 50%;
+	wash-color: #CDF;
+	opacity: 0.5;
+	transition-property: opacity;
+	transition-duration: 0.2s;
+	img-shadow: 0px 0px 3px 3 black;
+}
+
+.player_avatar
+{
+	width: 60px;
+	height: 60px;
+	margin: 4px;
+}
+
+.player_panel
+{
+	flow-children: right-wrap;
+}
+
+.display_ability
+{
+	width: 67px;
+}
+
+.player_display_abilitys
+{
+	flow-children: right-wrap;
+}
+#nandu-panel
+{
+	margin-top: 4%;
+	width: 10%;
+	height: 96%;
+	transform: translate3d(0px, 0px, 0px);
+	overflow: squish scroll;
+	horizontal-align: right;
+	border: 2px solid white;
+}
+#nandu_list{
+	flow-children: down-wrap;
+}
+/* huanmeng */
+#nandu-panel #nandu_list #item-radio
+{
+	margin-right: 3px;
+
+	flow-children: none;
+	background-image: url("file://{images}/main/btn_nandu_nor_png.png");
+}
+
+#nandu-panel #nandu_list #item-radio .RadioBox
+{
+	visibility: collapse;
+}
+
+#nandu-panel #nandu_list #item-radio #sel_bg
+{
+	opacity: 0;
+	transition-property: opacity;
+	transition-duration: 0.2s;
+
+}
+ 
+#nandu-panel #nandu_list #item-radio:hover #sel_bg
+{
+	opacity: 1;
+}
+
+#nandu-panel #nandu_list #item-radio:selected #sel_bg
+{
+	opacity: 1;
+}
+
+#nandu-panel .nandu_list .item-radio:disabled
+{
+	saturation: 0;
+	wash-color: #999;
+}
+
+#nandu-panel .nandu_list .item-radio .dec
+{
+	color: #FFF;
+	font-size: 24px;
+	text-align: center;
+	vertical-align: middle;
+	horizontal-align: center;
+	margin-left: 18px; 
+	text-shadow: #000 0px 0px 1px 1.0;
+}
+#start_game
+{
+	width: 20%;
+	height: 10%;
+	x:1%;
+	y:80%;
+
+	background-image: url("file://{images}/main/btn_nor_png.png");
+}
+#start_game_label
+{text-align: center;
+	vertical-align: middle;
+	horizontal-align: center;
+	font-size: 24px;
+	color: #FFC437;
+	text-shadow: #000 0px 0px 1px 2.0;
+}

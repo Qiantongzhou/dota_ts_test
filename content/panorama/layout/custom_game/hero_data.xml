@@ -1,0 +1,67 @@
+<!-- xml reconstructed by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io -->
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/custom_game/hero_data.vcss_c" />
+	</styles>
+	<Panel style="flow-children:down-wrap;">
+		<Panel style="flow-children:right-wrap;">
+			<Label id="hero_name" text="00" style="font-size:30px;color:white;" />
+			<Image id="hero_type" src="s2r://panorama/images/primary_attribute_icons/primary_attribute_icon_all_psd.vtex" style="x:70px;" />
+		</Panel>
+		<Panel style="flow-children:right-wrap;">
+			<Panel style="flow-children:down-wrap;">
+				<Panel style="flow-children:right-wrap;">
+					<Image src="s2r://panorama/images/primary_attribute_icons/primary_attribute_icon_strength_psd.vtex" />
+					<Label id="AttributeBaseStrength" text="00" style="font-size:30px;color:white;" />
+					<Label text="+" style="font-size:30px;color:white;" />
+					<Label id="AttributeStrengthGain" text="00" style="font-size:30px;color:white;" />
+				</Panel>
+				<Panel style="flow-children:right-wrap;">
+					<Image src="s2r://panorama/images/primary_attribute_icons/primary_attribute_icon_agility_psd.vtex" />
+					<Label id="AttributeBaseAgility" text="00" style="font-size:30px;color:white;" />
+					<Label text="+" style="font-size:30px;color:white;" />
+					<Label id="AttributeAgilityGain" text="00" style="font-size:30px;color:white;" />
+				</Panel>
+				<Panel style="flow-children:right-wrap;">
+					<Image src="s2r://panorama/images/primary_attribute_icons/primary_attribute_icon_intelligence_psd.vtex" />
+					<Label id="AttributeBaseIntelligence" text="00" style="font-size:30px;color:white;" />
+					<Label text="+" style="font-size:30px;color:white;" />
+					<Label id="AttributeIntelligenceGain" text="00" style="font-size:30px;color:white;" />
+				</Panel>
+			</Panel>
+			<Panel style="width:20px;" />
+			<Panel style="flow-children:down-wrap;color:white;">
+				<Panel style="height:70px;width:400px;flow-children:right-wrap;">
+					<Panel class="value_panel">
+						<Image src="s2r://panorama/images/hud/reborn/icon_damage_psd.vtex" />
+						<Label id="AttackDamage" text="" style="font-size:25px;" />
+					</Panel>
+					<Panel class="value_panel">
+						<Image src="s2r://panorama/images/hud/reborn/icon_armor_psd.vtex" />
+						<Label id="ArmorPhysical" text="" style="font-size:25px;" />
+					</Panel>
+					<Panel class="value_panel">
+						<Image src="s2r://panorama/images/hud/reborn/icon_speed_psd.vtex" />
+						<Label id="MovementSpeed" text="" style="font-size:25px;" />
+					</Panel>
+					<Panel class="value_panel">
+						<Image src="s2r://panorama/images/hud/reborn/icon_attack_speed2_psd.vtex" />
+						<Label id="AttackRate" text="" style="font-size:25px;" />
+					</Panel>
+					<Panel class="value_panel">
+						<Image src="s2r://panorama/images/hud/reborn/icon_attack_range_psd.vtex" />
+						<Label id="AttackRange" text="" style="font-size:25px;" />
+					</Panel>
+				</Panel>
+				<Panel style="height:35px;width:400px;background-color:#3CB371;border-radius:5px;">
+					<Label id="StatusHealth" text="" style="font-size:30px;x:40%;" />
+					<Label id="StatusHealthRegen" text="" style="font-size:30px;x:80%;" />
+				</Panel>
+				<Panel style="height:35px;width:400px;background-color:#1E90FF;border-radius:5px;">
+					<Label id="StatusMana" text="" style="font-size:30px;x:40%;" />
+					<Label id="StatusManaRegen" text="" style="font-size:30px;x:80%;" />
+				</Panel>
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

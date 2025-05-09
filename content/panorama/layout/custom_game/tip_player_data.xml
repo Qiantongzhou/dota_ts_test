@@ -1,0 +1,10 @@
+<!-- xml reconstructed by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io -->
+<root>
+	<Panel style="flow-children:down-wrap;">
+		<DOTAAvatarImage id="avatar" steamid="" class="player_avatar" style="width: 60px;height: 60px;margin: 4px;" />
+		<Panel style="flow-children:right-wrap;color:white;">
+			<Label text="#player_level" style="font-size:20px;" />
+			<Label id="player_level" text="" style="font-size:20px;" />
+		</Panel>
+	</Panel>
+</root>

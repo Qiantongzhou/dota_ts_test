@@ -1,0 +1,269 @@
+<!-- xml reconstructed by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io -->
+<root>
+	<scripts>
+		<!-- <include src="s2r://panorama/scripts/custom_game/ban_player.vjs_c" /> -->
+		<include src="s2r://panorama/scripts/custom_game/hero_pool.js" />
+		<include src="s2r://panorama/scripts/custom_game/heros_menu/heros_menu.js" />
+		<!-- 
+		<include src="s2r://panorama/scripts/custom_game/load_hero_pool.js" />
+		<include src="s2r://panorama/scripts/custom_game/show_ability.js" />
+		<include src="s2r://panorama/scripts/custom_game/load_pick_hero_panel.js" />
+		<include src="s2r://panorama/scripts/custom_game/test.js" />
+		<include src="s2r://panorama/scripts/custom_game/function.js" /> -->
+ 
+	</scripts>
+	<styles>
+		<include src="s2r://panorama/styles/custom_game/main.vcss_c" />
+		<!-- <include src="s2r://panorama/styles/custom_game/ability.css" /> -->
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/styles/tooltips/tooltip_aghs_status.vcss_c" />
+	</styles> 
+
+	<snippets>
+		<snippet name="stat_data_case">
+			<Panel style="flow-children:right-wrap;">
+				<DOTAHeroImage heroname="npc_dota_hero_base" heroimagestyle="icon" style="width:32px;height:32px;" />
+				<ProgressBar style="width:150px;" class="stat_data_bar">
+					<Label id="damage_text" text="0" style="color:white;" />
+				</ProgressBar>
+				<Image src="s2r://panorama/images/control_icons/check_png.vtex" style="width:20px;height:20px;wash-color:#FFA500;visibility:collapse;" />
+			</Panel>
+		</snippet>
+		<snippet name="pvp_end_player_case">
+			<Panel style="flow-children:right-wrap;height:64px;">
+				<DOTAAvatarImage steamid="" style="width:60px;height:60px;margin:2px;" />
+				<DOTAHeroImage heroname="" heroimagestyle="landscape" style="height:64px;width:113px;" />
+				<Panel style="width:100px;">
+					<Label text="" style="font-size:40px;" />
+				</Panel>
+				<Panel style="width:100px;">
+					<Label text="" style="font-size:40px;" />
+				</Panel>
+				<Panel style="width:100px;">
+					<Label text="" style="font-size:40px;" />
+				</Panel>
+				<Panel style="flow-children:right-wrap;height:64px;width:640px;" />
+				<Label text=" " style="font-size:50px;" />
+				<Panel style="flow-children:right-wrap;height:64px;width:512px;" />
+			</Panel>
+		</snippet>
+		<snippet name="pve_end_player_case">
+			<Panel style="flow-children:right-wrap;height:64px;">
+				<DOTAAvatarImage steamid="" style="width:60px;height:60px;margin:2px;" />
+				<DOTAHeroImage heroname="" heroimagestyle="landscape" style="height:64px;width:113px;" />
+				<Panel style="flow-children:right-wrap;height:64px;width:640px;" />
+				<Label text=" " style="font-size:50px;" />
+				<Panel style="flow-children:right-wrap;height:64px;width:512px;" />
+				<ProgressBar style="width:150px;" class="stat_data_bar">
+					<Label id="damage_text" text="0" style="color:white;" />
+				</ProgressBar>
+			</Panel>
+		</snippet>
+		<snippet name="close_ability_book">
+			<Panel style="flow-children:right-wrap;height:64px;width:105px;">
+				<Button class="ButtonBevel" onactivate="close_ability_book()">
+					<Label text="#close" />
+				</Button>
+			</Panel>
+		</snippet>
+		<snippet name="close_remove_ability_plane">
+			<Panel style="height:100px;width:100px;">
+				<Button class="ButtonBevel" onactivate="close_remove_ability_plane()">
+					<Label text="#close" />
+				</Button>
+			</Panel>
+		</snippet>
+		<snippet name="rank_case">
+			<Panel style="flow-children:right;height:64px;" class="rank_case">
+				<Panel id="rank_number" style="width:50px;">
+					<Label id="rank_number_text" text="" style="font-size:30px;color:white;" />
+				</Panel>
+				<Panel id="pass_time" style="width:50px;">
+					<Label id="pass_time_text" text="" style="font-size:20px;color:white;" />
+				</Panel>
+				<DOTAAvatarImage id="player_icon" steamid="" style="width:60px;height:60px;margin:2px;" />
+				<DOTAHeroImage id="hero_icon" heroname="" heroimagestyle="landscape" style="height:64px;width:113px;" />
+				<Panel id="ability_container" style="flow-children:right-wrap;height:64px;width:640px;" />
+				<Panel style="width:50px;" />
+				<Panel id="item_container" style="flow-children:right-wrap;height:64px;width:700px;" />
+			</Panel>
+		</snippet>   
+		<snippet name="show_ability">
+			<Panel class="ability_show" style="width: 63px;height: 63px;">
+				<DOTAAbilityImage abilityname="" onactivate="suggest_remove_ability()" />
+			</Panel>
+		</snippet>
+		<snippet name="player_icon">
+			<Panel class="player_panel">
+				<Panel onmouseactivate="show_other_hero()" onmouseover="" onmouseout="">
+					<DOTAAvatarImage id="avatar" steamid="" hittest="false" class="player_avatar" style="width: 60px;height: 60px;margin: 4px;" />
+				</Panel>
+				<Panel class="player_display_abilitys" />
+			</Panel>
+		</snippet>
+		<snippet name="nandu_item">
+            <Panel>
+                <RadioButton id="item-radio" class="item-radio" group="nandu" onselect="">
+                    <Image class="sel_bg" id="sel_bg" src="file://{images}/main/btn_nandu_press_png.png" />
+                    <Label id="dec" class="dec" text="N1" />
+                </RadioButton>
+            </Panel>
+        </snippet>
+	</snippets>
+	<Panel hittest="false" style="width:100%;">
+		<Image src="s2r://panorama/images/custom_game/camera_png.vtex" style="x:200px;y:12px;width:45px;height:30px;" onmouseover="DOTAShowTextTooltip(&apos;#camera_distance&apos;)" onmouseout="DOTAHideTextTooltip()" onactivate="show_camera_slider_panel()" />
+		<Image src="s2r://panorama/images/custom_game/discord_png.vtex" style="x:410px;y:2px;width:40px;height:40px;" onactivate="open_discord()" onmouseover="DOTAShowTextTooltip(&apos;#tip_discord&apos;)" onmouseout="DOTAHideTextTooltip()" />
+		<Image src="s2r://panorama/images/custom_game/mod_logo_png.vtex" style="x:82%;y:-30px;width:400px;height:224px;" />
+		<Image id="rank" onactivate="toggle_rank_panel()" src="s2r://panorama/images/custom_game/rank_icon_png.vtex" style="width:35px;height:35px;x:455px;y:5px;" onmouseover="DOTAShowTextTooltip(&apos;rank&apos;)" onmouseout="DOTAHideTextTooltip()" />
+		<Image id="patreon" onactivate="open_patreon()" src="s2r://panorama/images/custom_game/patreon_small_png.vtex" style="width:35px;height:35px;x:75%;y:5px;" onmouseover="DOTAShowTextTooltip(&apos;#patreon_tip&apos;)" onmouseout="DOTAHideTextTooltip()" />
+		<Image id="vip" onactivate="recharge_vip()" src="s2r://panorama/images/custom_game/vip_png.vtex" style="width:50px;height:50px;x:77%;y:-3px;" onmouseover="DOTAShowTextTooltip(&apos;#recharge_tip&apos;)" onmouseout="DOTAHideTextTooltip()" />
+		<Image id="boosty" onactivate="open_boosty()" src="s2r://panorama/images/custom_game/boosty_png.vtex" style="width:35px;height:35px;x:80%;y:5px;" onmouseover="DOTAShowTextTooltip(&apos;#boosty_tip&apos;)" onmouseout="DOTAHideTextTooltip()" />
+		<Panel id="rank_panel" style="x:200px;y:50px;width:1700px;height:680px;background-color:#212726;flow-children:down;z-index:2;border:2px solid white;visibility:collapse;">
+			<Panel id="rank_difficulty_select" style="flow-children:right-wrap;">
+				<Button class="ButtonBevel" onactivate="toggle_rank_panel_difficulty(0)" style="width:100px;">
+					<Label text="N0" />
+				</Button>
+				<Button class="ButtonBevel" onactivate="toggle_rank_panel_difficulty(1)" style="width:100px;">
+					<Label text="N1" />
+				</Button>
+				<Button class="ButtonBevel" onactivate="toggle_rank_panel_difficulty(2)" style="width:100px;">
+					<Label text="N2" />
+				</Button>
+				<Button class="ButtonBevel" onactivate="toggle_rank_panel_difficulty(3)" style="width:100px;">
+					<Label text="N3" />
+				</Button>
+				<Button class="ButtonBevel" onactivate="toggle_rank_panel_difficulty(4)" style="width:100px;">
+					<Label text="N4" />
+				</Button>
+				<Button class="ButtonBevel" onactivate="toggle_rank_panel_difficulty(5)" style="width:100px;">
+					<Label text="N5" />
+				</Button>
+				<Button class="ButtonBevel" onactivate="toggle_rank_panel_difficulty(6)" style="width:100px;">
+					<Label text="N6" />
+				</Button>
+				<Button class="ButtonBevel" onactivate="toggle_rank_panel_difficulty(7)" style="width:100px;">
+					<Label text="N7" />
+				</Button>
+			</Panel>
+			<Panel id="rank_container" style="flow-children:down;overflow:scroll;" />
+		</Panel>
+		<Panel id="show_difficulty" style="x:370px;y:2px;width:40px;height:40px;" onmouseover="tip_difficulty()" onmouseout="DOTAHideTextTooltip()">
+			<Label text="0" style="font-size:30px;color:#E7D291;x:13px;y:2px;" />
+		</Panel>
+		<Panel style="x:310px;y:-25px;width:100px;height:100px;" hittest="false">
+			<Panel hittest="true" style="x:25px;y:25px;width:50px;height:50px;" onactivate="toggle_particle_panel()" onmouseover="DOTAShowTextTooltip(&apos;#tip_particles&apos;)" onmouseout="DOTAHideTextTooltip()" />
+			<DOTAParticleScenePanel hittest="false" style="width:100px;height:100px;" class="TopParticlesBg" particleName="particles/econ/items/faceless_void/faceless_void_arcana/faceless_void_arcana_ui_icon.vpcf" particleonly="true" startActive="true" cameraOrigin="500 0 0" lookAt="0 0 0" fov="5" squarePixels="true" />
+		</Panel>
+		<Panel id="particle_panel" style="x:250px;y:50px;width:640px;height:400px;background-color:#212726;flow-children:down-wrap;visibility:collapse;">
+			<Button class="ButtonBevel" onactivate="up_particles()" style="width:1100px;height:50px;">
+				<Label text="#save" />
+			</Button>
+			<Panel id="vip2_particle_panel" style="flow-children:down-wrap;" />
+		</Panel>
+		<Panel id="vip_panel" style="x:70%;y:50px;width:400px;height:300px;background-color:#212726;flow-children:down-wrap;z-index:2;visibility:collapse;">
+			<Label text="Donation website" style="font-size:30px;color:white;" />
+			<Panel style="flow-children:right-wrap;">
+				<Image onactivate="open_patreon()" src="s2r://panorama/images/custom_game/patreon_small_png.vtex" style="width:55px;height:55px;" onmouseover="DOTAShowTextTooltip(&apos;#patreon_tip&apos;)" onmouseout="DOTAHideTextTooltip()" />
+				<Image onactivate="open_boosty()" src="s2r://panorama/images/custom_game/boosty_png.vtex" style="width:55px;height:55px;" onmouseover="DOTAShowTextTooltip(&apos;#boosty_tip&apos;)" onmouseout="DOTAHideTextTooltip()" />
+				<Image onactivate="open_aifadian()" src="s2r://panorama/images/custom_game/afdian_png_png.vtex" style="width:55px;height:55px;" onmouseover="DOTAShowTextTooltip(&apos;Supporting Mod on Aifadian&apos;)" onmouseout="DOTAHideTextTooltip()" />
+			</Panel>
+		</Panel>
+		<Panel onmouseover="DOTAShowTextTooltip(&apos;#tip_bank&apos;)" onmouseout="DOTAHideTextTooltip()" style="x:0px;y:105px;z-index:1;width:100px;height:25px;background-color:YellowGradientBackgroundColor;border-radius:3px;z-index:-1;">
+			<Label id="bank_text" text="0" style="color:white;font-size:20px;horizontal-align:center;" />
+		</Panel>
+		<Panel id="punishment_inform_panel" style="visibility:collapse;width:400px;height:200px;x:30%;y:40%;z-index:2;background-color:#212726;border:2px solid white;padding:10px;">
+			<Label text="#punishment_tip" style="font-size:25px;color:red;" />
+			<Button onactivate="toggle_panel(&apos;punishment_inform_panel&apos;)" class="ButtonBevel" style="x:80px;y:130px;background-color: OrangeGradientBackgroundColor;">
+				<Label text="#confirm" />
+			</Button>
+		</Panel>
+		<Panel id="ability_book_plane" style="width:200px;height:600px;x:93%;y:20%;opacity:1;flow-children: down-wrap;" />
+		<Panel id="remove_ability_plane" style="width:1500px;height:300px;x:200px;y:100px;flow-children:right-wrap;background-color:#2b2f30;visibility:collapse;" />
+		<Slider id="camera_distance_slider" style="x:200px;y:50px;visibility:collapse;" onvaluechanged="adjust_camera_distance()" />
+		<Panel id="button_panel" style="x:150px;y:4px;z-index:2;">
+			<Button id="timer_button" class="ButtonBevel" style="flow-children:right-wrap;" onactivate="player_pause_game()">
+				<Label text="#timer" />
+				<Label id="timer" text="300" />
+			</Button>
+		</Panel>
+		<Button id="redraw" class="ButtonBevel" style="x:83%;y:3px;z-index:1;height:30px;background-color:YellowGradientBackgroundColor;" onactivate="redraw()" onmouseover="" onmouseout="DOTAHideTextTooltip()">
+			<Label text="#redraw" />
+		</Button>
+		<Panel id="stat_data_panel" style="x:0px;y:300px;width:500px;height:500px;flow-children:down-wrap;visibility:collapse;">
+			<Panel style="flow-children:right-wrap;">
+				<Button onactivate="toggle_stat_data_container()" onmouseover="DOTAShowTextTooltip(&apos;#toggle_stat_data_container&apos;)" onmouseout="DOTAHideTextTooltip()" style="background-image:url(&apos;s2r://panorama/images/control_icons/hamburger_png.vtex&apos;);width:30px;height:30px;background-size:30px;opacity:0.1;" />
+				<Panel style="width:150px;margin:2px;height:28px;border-radius:5px;">
+					<Button id="boss_read" class="ButtonBevel" style="flow-children:right-wrap;background-color:GreenGradientBackgroundColor;border-radius:5px;visibility:collapse;" onactivate="boss_read()">
+						<Label text="#ready" />
+						<Label text="60" />
+					</Button>
+				</Panel>
+			</Panel>
+			<Panel style="flow-children:down-wrap;" id="stat_data_container" />
+		</Panel>
+		<Panel id="pvp_end" style="z-index:2;visibility:collapse;width:1950px;height:1040px;background-color: #2b2f30;x: 0px;y: 40px;flow-children: down-wrap;border: 2px solid #2b2f30;">
+			<Panel id="pvp_end_good_container" style="width: 1950px;height:324px;background-color:#212726;x: 0px;y: 40px;flow-children: down-wrap;border: 2px solid #3b3f40;" />
+			<Label text="" style="font-size:50px;" />
+			<Panel id="pvp_end_bad_container" style="width: 1950px;height: 324px;background-color:#212726;x: 0px;y: 40px;flow-children: down-wrap;border: 2px solid #3b3f40;" />
+			<Panel style="width:1920px;height:100px;">
+				<Button onactivate="end_game()" style="x:45%;y:50px;background-color: OrangeGradientBackgroundColor;" class="ButtonBevel">
+					<Label text="end" />
+				</Button>
+			</Panel>
+		</Panel>
+		<Panel id="pve_end" style="visibility:collapse;width:1950px;height:500px;background-color: #2b2f30;x: 0px;y: 40px;flow-children: down-wrap;border: 2px solid #2b2f30;">
+			<Panel style="width:1920px;height:50px;">
+				<Label id="round_text" text="" style="x:40%;font-size:30px;" />
+			</Panel>
+			<Panel id="pve_end_good_container" style="width: 1950px;height:324px;background-color:#212726;x: 0px;y: 40px;flow-children: down-wrap;border: 2px solid #3b3f40;" />
+			<Panel style="width:1920px;height:100px;">
+				<Button onactivate="continue_game()" class="ButtonBevel" style="x:38%;y:50px;background-color: GreenGradientBackgroundColor;">
+					<Label text="#next_round" />
+				</Button>
+			</Panel>
+		</Panel> 
+		<Panel id="select_panel" acceptsfocus="false">
+			<Panel id="hero_panel" />
+			<Panel id="other_hero_panel" acceptsfocus="false" style="visibility:collapse;" onmouseout="down_other_hero()">
+				<Panel id="commend_ability_panel" acceptsfocus="true" onmouseout="hide_commend_ability_panel()" style="width:400px;height:150px;x:400px;y:500px;background-color:#212726;z-index:3;border:2px solid #4F4F4F;visibility:collapse;flow-children: right-wrap;" />
+				<Panel id="other_hero_panel_container" acceptsfocus="false" />
+			</Panel>
+
+			<Panel id="ability_panel" />
+			<Panel id="selected_abilitys_panel">
+				<Panel id="PortraitGroup">
+                    <DOTAHeroMovie id="HeroPortrait" heroname="">
+                    </DOTAHeroMovie>
+                    <Panel id="heroframe"></Panel>
+                </Panel>
+
+				<Panel id="selected_abilitys">
+				</Panel>
+				<Panel id="selected_items">
+				</Panel>
+				<Panel id="items_box">
+				</Panel>
+				<Button id="start_game" onactivate="select_hero()" >
+					<Label id="start_game_label" text="#startgame" />
+				</Button>
+			</Panel>
+			<Panel id="nandu-panel">
+					<Panel id="nandu_list" class="nandu_list down" />
+			</Panel>
+			<Panel id="display_panel" />
+			<Panel id="map_info_panel">
+				<!-- <DropDown oninputsubmit="select_difficulty()" id="select_difficulty" style="visibility:collapse;background-color:BlueGradientBackgroundColor;" onmouseover="show_vote_data()" onmouseout="UIHideCustomLayoutTooltip(vote_data)">
+					<Label text="#plz_pick_diff" />
+					<Label text="#difficulty0" id="0" />
+					<Label text="#difficulty1" id="1" />
+					<Label text="#difficulty2" id="2" />
+					<Label text="#difficulty3" id="3" />
+					<Label text="#difficulty4" id="4" style="color:red;" />
+					<Label text="#difficulty5" id="5" style="color:red;" />
+					<Label text="#difficulty6" id="6" style="color:red;" />
+					<Label text="#difficulty7" id="7" style="color:red;" />
+				</DropDown> -->
+			</Panel>
+		</Panel>
+	</Panel>
+</root>

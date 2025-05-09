@@ -1,7 +1,5 @@
 import { reloadable } from "./lib/tstl-utils";
-import { modifier_panic } from "./modifiers/modifier_panic";
-
-const heroSelectionTime = 20;
+import { xpTable } from "./lib/huizhou_lib/init";
 
 declare global {
     interface CDOTAGameRules {
@@ -14,6 +12,8 @@ export class GameMode {
     public static Precache(this: void, context: CScriptPrecacheContext) {
         PrecacheResource("particle", "particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", context);
         PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_meepo.vsndevts", context);
+        PrecacheResource("particle", "particles/units/heroes/hero_ember_spirit/ember_spirit_flameguard.vpcf", context);
+        PrecacheUnitByNameSync("npc_dota_neutral_kobold2", context)
     }
 
     public static Activate(this: void) {
@@ -28,43 +28,32 @@ export class GameMode {
         ListenToGameEvent("game_rules_state_change", () => this.OnStateChange(), undefined);
         ListenToGameEvent("npc_spawned", event => this.OnNpcSpawned(event), undefined);
 
-        // Register event listeners for events from the UI
-        CustomGameEventManager.RegisterListener("ui_panel_closed", (_, data) => {
-            print(`Player ${data.PlayerID} has closed their UI panel.`);
-
-            // Respond by sending back an example event
-            const player = PlayerResource.GetPlayer(data.PlayerID)!;
-            CustomGameEventManager.Send_ServerToPlayer(player, "example_event", {
-                myNumber: 42,
-                myBoolean: true,
-                myString: "Hello!",
-                myArrayOfNumbers: [1.414, 2.718, 3.142]
-            });
-
-            // Also apply the panic modifier to the sending player's hero
-            const hero = player.GetAssignedHero();
-            if (hero != undefined) { // Hero didn't spawn yet or dead
-                hero.AddNewModifier(hero, undefined, modifier_panic.name, { duration: 5 });
-            }
-        });
     }
 
     private configure(): void {
-        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.GOODGUYS, 3);
-        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.BADGUYS, 3);
+        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.GOODGUYS, 5)
+        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.BADGUYS, 0)
+        GameRules.GetGameModeEntity().SetCustomXPRequiredToReachNextLevel(xpTable(999))
+        GameRules.GetGameModeEntity().SetUseCustomHeroLevels(true)
+        GameRules.GetGameModeEntity().SetCustomHeroMaxLevel(999)
+    
+        GameRules.SetCustomGameSetupAutoLaunchDelay(2.0)
+        GameRules.SetHeroSelectionTime(20.0)
+        GameRules.SetStrategyTime(10.0)
+        GameRules.SetPreGameTime(5000.0)
+        GameRules.SetShowcaseTime(0.0)
 
         GameRules.SetShowcaseTime(0);
-        GameRules.SetHeroSelectionTime(heroSelectionTime);
+        GameRules.SetHeroSelectionTime(20);
+
+        
     }
 
     public OnStateChange(): void {
         const state = GameRules.State_Get();
-
-        // Add 4 bots to lobby in tools
+        
         if (IsInToolsMode() && state == GameState.CUSTOM_GAME_SETUP) {
-            for (let i = 0; i < 4; i++) {
-                Tutorial.AddBot("npc_dota_hero_lina", "", "", false);
-            }
+
         }
 
         if (state === GameState.CUSTOM_GAME_SETUP) {
@@ -75,10 +64,31 @@ export class GameMode {
                 });
             }
         }
+        if (state === GameState.PRE_GAME) { 
+            
+            // Iterate through all player IDs
+            Timers.CreateTimer(0.2, ()=>{
+            for (let playerID = 0; playerID < DOTA_MAX_PLAYERS; playerID++) {
+               
+                if (PlayerResource.IsValidPlayerID(playerID)) {
+                    const hero = PlayerResource.GetSelectedHeroEntity(playerID);
+                    if (hero && hero.IsRealHero() && !hero.IsIllusion()) {
+                        // Check if the hero already has the ability
+                        if (!hero.HasAbility("spawn_creep")) {
+                            const ability = hero.AddAbility("spawn_creep");
+                            if (ability!=null) {
+                                ability.SetLevel(1); // Set the ability to level 1
+                            }
+                        }
+                    }
+                }
+            }}
+            );
+        }
 
         // Start game once pregame hits
         if (state === GameState.PRE_GAME) {
-            Timers.CreateTimer(0.2, () => this.StartGame());
+           //Timers.CreateTimer(0.2, () => this.StartGame());
         }
     }
 
@@ -96,13 +106,17 @@ export class GameMode {
     }
 
     private OnNpcSpawned(event: NpcSpawnedEvent) {
-        // After a hero unit spawns, apply modifier_panic for 8 seconds
-        const unit = EntIndexToHScript(event.entindex) as CDOTA_BaseNPC; // Cast to npc since this is the 'npc_spawned' event
-        // Give all real heroes (not illusions) the meepo_earthbind_ts_example spell
-        if (unit.IsRealHero()) {
-            if (!unit.HasAbility("meepo_earthbind_ts_example")) {
-                // Add lua ability to the unit
-                unit.AddAbility("meepo_earthbind_ts_example");
+        //print("OnNpcSpawned")
+        const npc = EntIndexToHScript(event.entindex) as CDOTA_BaseNPC;
+
+        // Check if the spawned unit is a real hero and not an illusion
+        if (npc.IsRealHero() && !npc.IsIllusion()) {
+            // Ensure the ability isn't already added
+            if (!npc.HasAbility("spawn_creep")) {
+                const ability = npc.AddAbility("spawn_creep");
+                if (ability!=null) {
+                    ability.SetLevel(1); // Set the ability to level 1
+                }
             }
         }
     }

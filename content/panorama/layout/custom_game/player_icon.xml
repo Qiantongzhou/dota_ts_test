@@ -1,0 +1,13 @@
+<!-- xml reconstructed by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io -->
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/custom_game/main.vcss_c" />
+	</styles>
+	<scripts><include src="s2r://panorama/scripts/custom_game/player_icon.js" /></scripts>
+	<Panel class="player_panel">
+		<Panel onmouseactivate="show_other_hero()" onmouseover="" onmouseout="">
+			<DOTAAvatarImage id="avatar" steamid="" hittest="false" class="player_avatar" style="width: 60px;height: 60px;margin: 4px;" />
+		</Panel>
+		<Panel class="player_display_abilitys" />
+	</Panel>
+</root>

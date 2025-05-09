@@ -14,6 +14,7 @@
 // To declare an event for use, add it to this table with the type of its data
 interface CustomGameEventDeclarations {
     example_event: ExampleEventData,
+    selected_difficulty:difficultySelect,
     ui_panel_closed: UIPanelClosedEventData
 }
 
@@ -23,6 +24,9 @@ interface ExampleEventData {
     myBoolean: boolean;
     myString: string;
     myArrayOfNumbers: number[]
+}
+interface difficultySelect{
+    value: number
 }
 
 // This event has no data

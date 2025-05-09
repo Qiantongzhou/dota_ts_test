@@ -1,0 +1,14 @@
+.ability_book_panel{
+align:center center;
+width: fit-children;
+
+height: 100px;
+background-color: black;
+visibility: collapse;
+flow-children: right;
+}
+.book_panel{
+    width: 100%;
+    height:100%;
+
+}

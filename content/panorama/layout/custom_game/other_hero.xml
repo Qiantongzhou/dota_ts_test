@@ -1,0 +1,8 @@
+<!-- xml reconstructed by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io -->
+<root>
+
+	<scripts><include src="s2r://panorama/scripts/custom_game/other_hero.js" /></scripts>
+	<Panel class="hero">
+		<DOTAHeroImage onactivate="show_commend_ability_panel()" class="hero_image" heroname="" heroimagestyle="landscape" style="" />
+	</Panel>
+</root>

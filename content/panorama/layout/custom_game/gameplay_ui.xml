@@ -1,0 +1,88 @@
+
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/custom_game/gameplay_ui.css" />
+	</styles>
+	<scripts>
+		<!-- <include src="s2r://panorama/scripts/custom_game/ban_player.vjs_c" /> -->
+		<include src="s2r://panorama/scripts/custom_game/gameplay_ui.js" />
+		
+		
+	</scripts>
+
+	<snippets>
+		<snippet name="settingbutton">
+		<Panel>
+			<RadioButton id="settingbutton" class="settingbutton" onselect="" onmouseover="DOTAShowTextTooltip(&apos;#setting_button&apos;)" onmouseout="DOTAHideTextTooltip()">
+                <Image class="buttonimg" src="file://{images}/main/setting-hover.png" />
+            </RadioButton>
+		</Panel>
+		</snippet>
+		<snippet name="abilitypanel">
+			<Panel>
+				<RadioButton id="abilitybutton" class="abilitybutton" onselect="">
+					<Panel id="SingleSpellImage">
+                        <DOTAAbilityImage id="SingleSpellPictureImage"/>
+                    </Panel>
+					<Image class="abilitybackground" src="" />
+				</RadioButton> 
+				<Button id="sellspell" class="sellspell" onselect="">
+					<Label id="cost" class="cost" text="#sell" />
+				</Button>
+			</Panel>
+		</snippet>
+		<snippet name="comfirmpanel">
+			<Panel>
+				<Panel id="SingleSpellImage">
+                    <DOTAAbilityImage id="SingleSpellPictureImage"/>
+                </Panel>
+				<Image class="abilitybackground" src="" />
+				<Button id="yessellspell" class="yessellspell" onselect="">
+					<Label id="cost" class="cost" text="#yes" />
+				</Button>
+				<Button id="nosellspell" class="nosellspell" onselect="">
+					<Label id="cost" class="cost" text="#no" />
+				</Button>
+			</Panel>
+		</snippet>
+	</snippets> 
+	<Panel class="gameplaypanel" hittest="false">
+		<Panel id="top_ui" class="top_ui">
+			<Panel id="stat_data_panel" style="">
+				<Panel id="time_data_panel" style="">
+
+					<Label text="60" />
+				</Panel>
+				<Panel id="wave_panel">
+					<Panel id="wave_bar" style="">
+						<Panel id="wave_bar_1" style="">
+						</Panel>
+						<Panel id="wave_bar_2" style="">
+						</Panel>
+					</Panel>
+					
+					<Panel id="stat_data_panel1" style="">
+						<Button id="boss_read" class="ButtonBevel" style="" onactivate="boss_read() " onmouseover="DOTAShowTextTooltip(&apos;#start_wave_button&apos;)" onmouseout="DOTAHideTextTooltip()">
+							<Label text="#ready" />
+						</Button>
+						<Button id="wave_stop" onactivate="boss_stop()" onmouseover="DOTAShowTextTooltip(&apos;#stop_wave_button&apos;)" onmouseout="DOTAHideTextTooltip()" >
+							<Label text="#stop" />
+						</Button>
+					</Panel>
+				</Panel>
+				<Panel style="flow-children:down-wrap;" id="stat_data_container" />
+			</Panel>
+		</Panel> 
+		<Panel id="setting_panel" class="setting_panel"> 
+			<Panel id="spellpanel" class="spellpanel"> 
+
+			</Panel>
+			<Panel id="dialogpanel" class="dialogpanel"> 
+
+			</Panel>
+		</Panel>
+		<Panel id="bottom_right_ui" class="bottom_right_ui">
+		</Panel> 
+	</Panel>
+</root>
+         

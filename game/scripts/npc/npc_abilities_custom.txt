@@ -2,4 +2,11 @@
 
 "DOTAAbilities"
 {
+    "spawn_creep"
+	{
+		"BaseClass"                     "ability_lua"
+		"ScriptFile"				    "abilities/spawn_creep"
+		"AbilityTextureName"    		"dark_troll_warlord_raise_dead"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_AUTOCAST | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	}
 }

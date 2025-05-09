@@ -1,0 +1,13 @@
+<!-- xml reconstructed by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io -->
+<root>
+	<styles />
+	<scripts>
+		<include src="s2r://panorama/scripts/custom_game/hero_pool.js" />
+		<include src="s2r://panorama/scripts/custom_game/ability_pool.js" />
+		<include src="s2r://panorama/scripts/custom_game/select_hero.js" />
+	</scripts>
+
+	<Panel class="hero" onmouseover="show_hero_data()" onmouseout="UIHideCustomLayoutTooltip( hero_data )">
+		<DOTAHeroImage class="hero_image" heroname="" heroimagestyle="landscape" onactivate="select_hero()" />
+	</Panel>
+</root>

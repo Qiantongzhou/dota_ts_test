@@ -1,0 +1,303 @@
+.SpellsMenuRoot {
+    width: 100%;
+    height: 100%;
+}
+
+.SpellsMenuPrecache {
+    visibility: visible;
+}
+
+#SpellsMenuContents,
+#SpellsMenuOpen {
+    visibility: visible;
+}
+
+#SpellsMenuContents.Visible,
+#SpellsMenuOpen.Visible {
+    visibility: collapse;
+}
+
+#SpellsMenuContents {
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+
+#SpellsMenuOpen,
+#SpellsMenuClose {
+    z-index: 15;
+    height: 100%;
+    width: 100%;
+}
+
+#SpellsMenuCloseButton,
+#SpellsMenuSwapSpellsButton,
+#SpellsMenuBuyPointsButton,
+#SpellsMenuAbilityPointsButton,
+#SpellsMenuGamblingButton,
+#SpellsMenuOpenButton {
+    align: right bottom;
+
+    margin-right: 20px;
+    margin-bottom: 10px;
+
+    z-index: 15;
+    padding: 10px;
+    border-radius: 15%;
+}
+
+#SpellsMenuGamblingButton {
+    color: #FFFFFF;
+    align: left bottom;
+    background-color: rgb(255, 0, 0);
+    padding: 10px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+}
+#SpellsMenuGamblingButton Label{
+    font-weight: normal;
+    color: #ffffff;
+    font-size: 10px;
+}
+
+#SpellsMenuAbilityPointsButton {
+    color: #FFFFFF;
+    background-color: #b66700;
+    margin-right: 445px;
+}
+
+#SpellsMenuBuyPointsButton {
+    color: #FFFFFF;
+    background-color: rgb(214, 20, 124);
+    margin-right: 300px;
+}
+
+#SpellsMenuSwapSpellsButton {
+    color: #FFFFFF;
+    background-color: rgb(229, 57, 53);
+    margin-right: 200px;
+}
+
+#SpellsMenuCloseButton {
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+#SpellsMenuOpenButton {
+    color: #FFFFFF;
+    background-color: rgb(229, 57, 53);
+}
+
+#SpellsMenuInfo {
+    flow-children: down-wrap;
+    width: 100%;
+    vertical-align: top;
+    height: fit-children;
+    padding: 40px 20px 30px;
+    transition: width 0.25s linear 0s;
+}
+
+.SpellsMenuHelperInfo {
+    width: 100%;
+    height: fit-children;
+}
+
+#SpellsMenuTitle {
+    color: #FFFFFF;
+    font-size: 38px;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+#SpellsMenuDescription {
+    color: #ffe600;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+#SpellsMenuAttention {
+    color: #FF1493;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.SpellsMenuHelperInfo Label {
+    width: 100%;
+}
+
+.SpellsMenuHelperCardPointsInfo {
+    margin-top: 10px;
+    flow-children: right-wrap;
+    width: 100%;
+    height: fit-children;
+}
+
+.SpellsMenuHelperCardPointsInfo Label {
+    font-size: 30px;
+    font-weight: bold;
+    width: fit-children;
+    color: #00f5ff;
+}
+
+
+#SpellsMenuHeroesBlock {
+    width: 50%;
+    flow-children: down;
+    height: 100%;
+}
+#heroselectgroup{
+    width: 100%;
+    flow-children: down;
+    height: 32%;
+}
+.SpellsMenuHeroesContents {
+    width: 100%;
+    flow-children: right-wrap;
+    vertical-align: top;
+    height: fit-children;
+    padding: 20px 20px 5px;
+    transition: width 0.1s linear 0s;
+}
+
+#SpellsMenuSpellsBlock {
+    width: 70%;
+    height: 460px;
+    align: center bottom;
+    flow-children: right-wrap;
+    margin-top: 100px;
+}
+.SpellsMenuSpellsContents{
+    width: 100%;
+    flow-children: down;
+    vertical-align: top;
+    height: fit-children;
+    padding: 20px 20px 5px;
+    transition: width 0.1s linear 0s;
+}
+.SpellsMenuSpellsContents2{
+    width: 100%;
+    flow-children: right-wrap;
+    vertical-align: top;
+    height: fit-children;
+    padding: 20px 20px 5px;
+    transition: width 0.1s linear 0s;
+}
+#SpellPanel{
+    width: 100%;
+    margin-left: 158px;
+    flow-children: right-wrap;
+}
+.HeroPanel2{
+    width: 1280px;
+    height: 72px;
+}
+.SingleSpellPanel {
+    flow-children: down;
+    margin-right: 20px;
+    background-color: rgba(0, 0, 0, 0.99);
+}
+
+.CpCostIndicator {
+    align: center center;
+}
+
+.HeroPanel {
+    width: 128px;
+    height: 72px;
+}
+
+#HeroImage {
+    width: 128px;
+    height: 72px;
+    align: center center;
+    z-index: 2;
+}
+
+.SpecialPanel {
+    width: 128px;
+    height: 128px;
+}
+
+#SpecialImage {
+    width: 128px;
+    height: 128px;
+    align: center center;
+    z-index: 2;
+}
+
+#PortraitGroup{
+    width: 250px;
+    height: 310px;
+    
+    vertical-align: top;
+    overflow: noclip;
+
+}
+#HeroPortrait{
+    align: center bottom;
+    z-index: 9;
+}
+#heroframe{
+    width: 100%;
+    height: 100%;
+
+    z-index: 10; /* Optional: ensures the background is behind other content */
+}
+#AbilityGroup{
+    margin-top: 45px;
+    width: 100%;
+    height: 128px;
+    margin-left: 30px;
+    vertical-align: top;
+    overflow: noclip;
+}
+#SetAbility{
+    height:50px;
+
+    flow-children: right-wrap;
+}
+#CustomAbility{
+    height:50px;
+    margin-top: 60px;
+    flow-children: right-wrap;
+}
+#SpellsMenuHeroeselectBlock{
+    width: 50%;
+    height: 560px;
+    align: right center;
+    flow-children: right-wrap;
+    
+    background-image: url('file://{images}/main/background_paper.png'); /* Replace with the path to your image */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not tile the background image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    z-index: -1; /* Optional: ensures the background is behind other content */
+}
+
+#background {
+    width: 100%;
+    height: 100%;
+    background-image: url('file://{images}/main/background_1.png'); /* Replace with the path to your image */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not tile the background image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    z-index: -1; /* Optional: ensures the background is behind other content */
+}
+
+#ability_book_panel{
+    width: 400px;
+    height: 200px;
+    background-color: black;
+    x:50%;
+    y:50%;
+    flow-children: left;
+}
+.book_panel{
+    width: 400px;
+    height: 200px;
+    background-color: black;
+    x:50%;
+    y:50%;
+    flow-children: left;
+}

@@ -1,0 +1,448 @@
+// Dota Heroes File
+// NOTE: This is not for creating new heroes, this is for taking a currently existing hero as a template and overriding
+// the specified key-value combinations.  Use override_hero <hero_to_override> for this.
+//npc_dota_hero cannot attachwearables in datadriven
+"DOTAHeroes"
+{
+	//=================================================================================================================
+	// HERO: Templar Assassin
+	//=================================================================================================================
+	 "npc_dota_hero_undying_boss"
+    {
+        // Hero definition
+        "BaseClass"                 "npc_dota_hero"
+		"HeroID"					"85"
+        "Model"                     "models/heroes/undying/undying.vmdl"
+        "SoundSet"                  "Hero_Undying"
+		"GameSoundsFile"						"soundevents/game_sounds_heroes/game_sounds_undying.vsndevts"
+        "Enabled"                   "0"
+        "HeroUnlockOrder"           "1"
+		"precache"
+		{
+			"particle_folder"					"particles/units/heroes/hero_undying"
+		}
+        "CMEnabled"                 "1"
+        "AbilityLayout"             "6"
+		"Ability1"					"auto_npc_dota_creature_undying_boss"
+
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"            "40"       // Damage range min.
+		"AttackDamageMax"            "50"       // Damage range max.
+		"AttackRate"                 "1.7"     // Speed of attack.
+		"AttackAnimationPoint"       "0.75"    // Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"     "800"     // Range within a target can be acquired.
+		"AttackRange"                "200"     // Range within a target can be attacked.
+		"AttackRangeBuffer"          "250"     // Extra range the target can move without canceling the attack
+		
+		"AttributePrimary"             "DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"        "22"            // Base strength
+		"AttributeStrengthGain"        "2.4"            // Strength bonus per level.
+		"AttributeBaseAgility"         "10"            // Base agility
+		"AttributeAgilityGain"         "1.2"            // Agility bonus per level.
+		"AttributeBaseIntelligence"    "27"            // Base intelligence
+		"AttributeIntelligenceGain"    "2.8"            // Intelligence bonus per level.
+        // Abilities and other properties here...
+		"MovementSpeed"               "300"       // Speed
+		"MovementTurnRate"            "0.5"       // Turning rate.
+    }
+        "npc_dota_hero_abaddon_boss"
+    {
+        // Hero definition
+        "BaseClass"                 "npc_dota_hero"
+		"HeroID"					"102"
+        "Model"                     "models/heroes/abaddon/abaddon.vmdl"
+        "ModelScale"                "3"
+        "SoundSet"                  "Hero_Abaddon"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_abaddon.vsndevts"
+        "Enabled"                   "0"
+        "HeroUnlockOrder"           "1"
+        "CMEnabled"                 "1"
+        "AbilityLayout"             "6"
+		"Ability1"					"auto_npc_dota_creature_abaddon_boss"
+
+		"ArmorPhysical"		"0"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"		"-4"
+		"AttackDamageMax"		"6"
+		"BaseAttackSpeed"		"95"
+		"AttackRate"		"1.500000"
+		"AttackAnimationPoint"		"0.560000"
+		"AttackAcquisitionRange"		"600"
+		"AttackRange"		"150"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_ALL"
+		"AttributeBaseStrength"		"22"
+		"AttributeStrengthGain"		"2.2"
+		"AttributeBaseAgility"		"23"
+		"AttributeAgilityGain"		"1.3"
+		"AttributeBaseIntelligence"		"19"
+		"AttributeIntelligenceGain"		"1.6"
+		"StatusManaRegen"	"0.25"
+		"StatusHealthRegen"		"1"
+		"MovementSpeed"		"325"
+		"MovementTurnRate"		"0.600000"
+    }
+    "npc_dota_hero_abyssal_underlord_boss"
+    {
+        // Hero definition
+        "BaseClass"                 "npc_dota_hero"
+		"HeroID"					"108"
+        "Model"                     "models/heroes/abyssal_underlord/abyssal_underlord_v2.vmdl"
+        "ModelScale"                "3"
+        "SoundSet"                  "Hero_AbyssalUnderlord"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_abyssal_underlord.vsndevts"
+        "Enabled"                   "1"
+        "HeroUnlockOrder"           "1"
+        "CMEnabled"                 "1"
+        "AbilityLayout"             "6"
+		"Ability1"					"auto_npc_dota_creature_abyssal_underlord_boss"
+
+		"ArmorPhysical"		"3.000000"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"		"37"
+		"AttackDamageMax"		"43"
+		"AttackRate"		"1.700000"
+		"AttackAnimationPoint"		"0.450000"
+		"AttackSpeedActivityModifiers"
+		{
+			"fast"		"170"
+			"faster"	"275"
+			"fastest"	"350"
+		}
+		"AttackAcquisitionRange"		"600"
+		"AttackRange"		"200"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"		"25"
+		"AttributeStrengthGain"		"3"
+		"AttributeBaseAgility"		"12"
+		"AttributeAgilityGain"		"1.600000"
+		"AttributeBaseIntelligence"		"17"
+		"AttributeIntelligenceGain"		"2.300000"
+		"MovementSpeed"		"290"
+    }
+    "npc_dota_hero_pangolier_boss"
+    {
+        // Hero definition
+        "BaseClass"                 "npc_dota_hero"
+		"HeroID"					"120"
+        "Model"                     "models/heroes/pangolier/pangolier.vmdl"
+        "ModelScale"                "3"
+        "SoundSet"                  "Hero_Pangolier"
+		"GameSoundsFile"						"soundevents/game_sounds_heroes/game_sounds_pangolier.vsndevts"
+        "Enabled"                   "1"
+        "HeroUnlockOrder"           "1"
+		"precache"
+		{
+			"particle_folder"					"particles/units/heroes/hero_pangolier"
+		}
+        "CMEnabled"                 "1"
+        "AbilityLayout"             "6"
+		"Ability1"					"auto_npc_dota_creature_pangolier_boss"
+
+		"ArmorPhysical"				"2"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"8"
+		"AttackDamageMax"			"14"
+		"AttackRate"				"1.700000"
+		"AttackAnimationPoint"		"0.330000"
+		"AttackSpeedActivityModifiers"
+		{
+			"fast"		"170"
+			"faster"	"275"
+			"fastest"	"350"
+		}
+		"AttackAcquisitionRange"	"600"
+		"AttackRange"				"150"
+		"AttributePrimary"			"DOTA_ATTRIBUTE_ALL"
+		"AttributeBaseStrength"		"19"
+		"AttributeStrengthGain"		"2.70000"
+		"AttributeBaseIntelligence"	"16"
+		"AttributeIntelligenceGain"	"2.200000"		
+		"AttributeBaseAgility"		"18"
+		"AttributeAgilityGain"		"2.80000"
+		"StatusHealthRegen"			"1.25"
+		"MovementSpeed"				"295"
+		"MovementTurnRate"			"0.900000"
+    }
+    "npc_dota_hero_bane_boss"
+    {
+        // Hero definition
+        "BaseClass"                 "npc_dota_hero"
+		"HeroID"					"3"
+        "Model"                     "models/heroes/bane/bane.vmdl"
+        "ModelScale"                "3"
+        "SoundSet"                  "Hero_Bane"
+		"GameSoundsFile"						"soundevents/game_sounds_heroes/game_sounds_bane.vsndevts"
+        "Enabled"                   "1"
+        "HeroUnlockOrder"           "1"
+		"precache"
+		{
+			"particle_folder"					"particles/units/heroes/hero_bane"
+		}
+        "CMEnabled"                 "1"
+        "AbilityLayout"             "6"
+		"Ability1"					"auto_npc_dota_creature_bane_boss"
+
+	    "ArmorPhysical"		"1"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"		"-1"
+		"AttackDamageMax"		"5"
+		"AttackRate"		"1.700000"
+		"AttackAnimationPoint"		"0.300000"
+		"AttackAcquisitionRange"		"800"
+		"AttackRange"		"400"
+		"ProjectileModel"		"particles/units/heroes/hero_bane/bane_projectile.vpcf"
+		"ProjectileSpeed"		"900"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_ALL"
+		"AttributeBaseStrength"		"23"
+		"AttributeStrengthGain"		"2.700000"
+		"AttributeBaseIntelligence"		"23"
+		"AttributeIntelligenceGain"		"2.700000"
+		"AttributeBaseAgility"		"23"
+		"AttributeAgilityGain"		"2.700000"
+		"MovementSpeed"		"305"
+		"VisionNighttimeRange"		"1200"
+    }
+    "npc_dota_hero_beastmaster_boss"
+    {
+        // Hero definition
+        "BaseClass"                 "npc_dota_hero"
+		"HeroID"					"38"
+        "Model"                     "models/heroes/beastmaster/beastmaster.vmdl"
+        "ModelScale"                "3"
+        "SoundSet"                  "Hero_Beastmaster"
+		"GameSoundsFile"						"soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts"
+        "Enabled"                   "1"
+        "HeroUnlockOrder"           "1"
+		"precache"
+		{
+			"particle_folder"					"particles/units/heroes/hero_beastmaster"
+		}
+        "CMEnabled"                 "1"
+        "AbilityLayout"             "6"
+		"Ability1"					"auto_npc_dota_creature_beastmaster_boss"
+
+        "ArmorPhysical"		"-1"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"		"5"
+		"AttackDamageMax"		"9"
+		"AttackRate"		"1.700000"
+		"BaseAttackSpeed"		"100"
+		"AttackAnimationPoint"		"0.300000"
+		"AttackAcquisitionRange"		"600"
+		"AttackRange"		"150" 
+		"ProjectileSpeed"		"0"
+		"AttributePrimary"		"DOTA_ATTRIBUTE_ALL"
+		"AttributeBaseStrength"		"25"
+		"AttributeStrengthGain"		"2.900000"
+		"AttributeBaseIntelligence"		"16"
+		"AttributeIntelligenceGain"		"1.200000"
+		"AttributeBaseAgility"		"22"
+		"AttributeAgilityGain"		"1.600000"
+		"MovementSpeed"		"305"
+		"BoundsHullName"		"DOTA_HULL_SIZE_HERO"
+    }
+	"npc_dota_hero_axe_boss"
+    {
+        // Hero definition
+        "BaseClass"                 "npc_dota_hero"
+	
+        "Model"                     "models/heroes/axe/axe.vmdl"
+        "SoundSet"                  "Hero_Axe"
+        "Enabled"                   "1"
+        "HeroUnlockOrder"           "1"
+        "Role"                      "Initiator,Durable,Disabler,Jungler"
+        "Rolelevels"                "2,2,1,1"
+        "Team"                      "Good"
+        "HeroID"                    "2"
+        "ModelScale"                "1.74"
+        "NameAliases"               "mogul_khan"
+        "url"                       "Axe"
+        "PickSound"                 "axe_axe_spawn_01"
+        "BanSound"                  "axe_axe_anger_06"
+        "CMEnabled"                 "1"
+        "AbilityLayout"             "6"
+        // Abilities and other properties here...
+
+        // Wearable items
+        // "Wearable1"
+        // {
+        //     // "ItemDef"                "10001"
+        //     // "Model"                  "models/items/axe/axe_cinder_baron/axe_cinder_baron.vmdl"
+        //     "Attach"                 "attach_weapon"
+        //     "Skin"                   "default"
+        // }
+        // "Wearable2"
+        // {
+        //     // "ItemDef"                "10002"
+        //     // "Model"                  "models/items/axe/axe_armor/axe_armor.vmdl"
+        //     "Attach"                 "attach_armor"
+        //     "Skin"                   "default"
+        // }
+        // "Wearable3"
+        // {
+        //     // "ItemDef"                "10003"
+        //     // "Model"                  "models/items/axe/axe_back/axe_back.vmdl"
+        //     "Attach"                 "attach_back"
+        //     "Skin"                   "default"
+        // }
+        // Add more wearables as needed
+    }
+	"npc_dota_hero_night_stalker_boss" //"npc_dota_hero_abaddon "
+    {
+        "override_hero"     "npc_dota_hero_night_stalker" //"npc_dota_hero_abaddon " 
+        "SoundSet"                  "Hero_NightStalker" //"Hero_Abaddon "
+        "Model"                         "models/heroes/nightstalker/nightstalker_night.vmdl" // "models/heroes/abaddon/abaddon.vmdl "
+        "AbilityLayout"     "16"
+        "Ability1"          ""
+        "Ability2"          "reveal_area_wolf" //"reveal_area"
+        "Ability3"          "troll_teleport"
+        "Ability4"          "attack_gold" // ""
+        "Ability5"          "night_stalker_hunter_in_the_night_datadriven" 
+        "Ability6"          ""//"abaddon_aphotic_shield"
+        "Ability7"          ""
+        "Ability8"          ""
+        "Ability9"          ""
+        "Ability10"         ""
+        "Ability11"         ""
+        "Ability12"         ""
+        "Ability13"         ""
+        "Ability14"         "plus_high_five" //пятюня тест
+        "Ability15"         "attribute_antibonuses"
+        "Ability16"         "antiblock"
+
+        "ArmorPhysical"       "0"                 // Physical protection.
+        "MagicalResistance"   "0"                 // Magical protection (percentage).
+
+        "AttackCapabilities"    "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackRange"         "64"
+        "AttackDamageMin"     "5"                   // Damage range min.
+        "AttackDamageMax"     "5"                   // Damage range max.
+        "AttackRate"                "2.0" //убрать если некорректно работает
+
+        //"AttributePrimary"      "DOTA_ATTRIBUTE_AGILITY"
+        "AttributeBaseStrength"   "0"                   // Base strength
+        "AttributeStrengthGain"   "0"                   // Strength bonus per level.
+        "AttributeBaseIntelligence" "0"                   // Base intelligence
+        "AttributeIntelligenceGain" "0"                   // Intelligence bonus per level.
+        "AttributeBaseAgility"    "0"                   // Base agility
+        "AttributeAgilityGain"    "0"                   // Agility bonus per level.
+
+        "BountyXP"          "0"                 // Experience earn.
+        "BountyGoldMin"       "0"                   // Gold earned min.
+        "BountyGoldMax"       "0"                   // Gold earned max.
+
+        "BoundsHullName"      "DOTA_HULL_SIZE_REGULAR"
+        //"RingRadius"        "70"
+        "CollisionSize"         "48"
+
+        "MovementCapabilities"    "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"       "300"                 // Speed.
+        "MovementTurnRate"      "1.0"                 // Turning rate.
+
+        "StatusHealth"        "500"                 // Base health.
+        "StatusHealthRegen"     "0.0"                 // Health regeneration rate.
+        "StatusMana"        "0"                   // Base mana.
+        "StatusManaRegen"     "0"                 // Mana regeneration rate.
+
+        "VisionDaytimeRange"    "1200"                  // Range of vision at night time.
+        "VisionNighttimeRange"    "1600"                  // Range of vision at night time.
+        "DisableWearables"               "0"        
+        "Creature"
+        {
+            "AttachWearables" // Arsenal of the Demonic Vessel
+            {
+                "1" { "ItemDef" "6412" } // Клинок Blade of the Demonic Vessel
+                "2" { "ItemDef" "6408" } // Плащ Cloak of the Demonic Vessel
+                "3" { "ItemDef" "6409" } // Голова Hood of the Demonic Vessel
+                "4" { "ItemDef" "6411" } // Плечи Prey of the Demonic Vessel
+                "5" { "ItemDef" "6410" } // Конь Warhorse of the Demonic Vessel
+            }
+        }
+        "DisableClumpingBehavior"  "1"  //Отключает слипание при попадании в чужую модельку
+
+
+    }
+	    "npc_dota_hero_lycan_boss" //" npc_dota_hero_death_prophet"
+    {
+        "override_hero"     "npc_dota_hero_lycan" //"npc_dota_hero_death_prophet"
+        "SoundSet"          "Hero_Lycan" //"Hero_DeathProphet "
+        "Model"             "models/heroes/lycan/lycan_wolf.vmdl" //"models/heroes/death_prophet/death_prophet.vmdl "
+        "AbilityLayout"     "16"
+        "Ability1"          "reveal_area_wolf" //"reveal_area"
+        "Ability2"          "troll_teleport"
+        "Ability3"          "attack_gold"
+        "Ability4"          "" // silence_datadriven_eventу
+        "Ability5"          ""
+        "Ability6"          ""
+        "Ability7"          ""
+        "Ability8"          ""
+        "Ability9"          ""
+        "Ability10"         ""
+        "Ability11"         ""
+        "Ability12"         ""
+        "Ability13"         ""
+        "Ability14"         "plus_high_five" //пятюня тест
+        "Ability15"         "attribute_antibonuses"
+        "Ability16"         "antiblock"
+
+        "ArmorPhysical"       "0"                 // Physical protection.
+        "MagicalResistance"       "0"                 // Magical protection (percentage).
+
+        "AttackCapabilities"    "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackRange"           "64"
+        "AttackDamageMin"     "5"                   // Damage range min.
+        "AttackDamageMax"     "5"                   // Damage range max.
+
+        //"AttributePrimary"      "DOTA_ATTRIBUTE_AGILITY"
+        "AttributeBaseStrength"   "0"                   // Base strength
+        "AttributeStrengthGain"   "0"                   // Strength bonus per level.
+        "AttributeBaseIntelligence" "0"                   // Base intelligence
+        "AttributeIntelligenceGain" "0"                   // Intelligence bonus per level.
+        "AttributeBaseAgility"    "0"                   // Base agility
+        "AttributeAgilityGain"    "0"                   // Agility bonus per level.
+
+        "BountyXP"          "0"                 // Experience earn.
+        "BountyGoldMin"       "0"                   // Gold earned min.
+        "BountyGoldMax"       "0"                   // Gold earned max.
+
+        "BoundsHullName"      "DOTA_HULL_SIZE_REGULAR"
+        //"RingRadius"        "70"
+        "CollisionSize"         "48"
+
+        "MovementCapabilities"    "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"       "360"                 // Speed.
+        "MovementTurnRate"      "1.0"                 // Turning rate.
+
+        "StatusHealth"        "500"                 // Base health.
+        "StatusHealthRegen"     "0.0"                 // Health regeneration rate.
+        "StatusMana"        "0"                   // Base mana.
+        "StatusManaRegen"     "0"                 // Mana regeneration rate.
+
+        "VisionDaytimeRange"    "1600"                  // Range of vision at night time.
+        "VisionNighttimeRange"    "1200"                  // Range of vision at night time.
+        "DisableWearables"               "0" //"1"
+        "Creature"
+        {
+            "AttachWearables" // Eternal Testament
+            {
+                "1" { "ItemDef" "9257" } // Вуаль Veil of Eternal Testament
+                "2" { "ItemDef" "9258" } // Платье Dress of Eternal Testament
+                "3" { "ItemDef" "9259" } // Блузка Blouse of Eternal Testament
+                "4" { "ItemDef" "9263" } // Декор Weeds of Eternal Testament
+            }
+        }
+        //"creature" и содержимое после - убрать после ивента
+        "DisableClumpingBehavior"  "1"                  //Отключает слипание при попадании в чужую модельку
+    }
+		"npc_dota_hero_init"
+	{
+		"BaseClass"                 "npc_dota_hero"
+		"HeroID"					"200"
+		"Model"						"models/props_gameplay/dummy/dummy.vmdl"
+		"ModelScale"				"2.5"
+		"MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_NONE"
+		
+		"StatusHealth"              "1000"
+	}
+
+}

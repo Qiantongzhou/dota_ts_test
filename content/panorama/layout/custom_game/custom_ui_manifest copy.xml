@@ -1,0 +1,20 @@
+<root>
+
+
+  <Panel>
+    <!-- CustomUIElements go here.-->
+              <CustomUIElement type="GameSetup" layoutfile="s2r://panorama/layout/custom_game/team_select.xml" />
+          <CustomUIElement type="HeroSelection" layoutfile="s2r://panorama/layout/custom_game/main.xml" />
+        <CustomUIElement type="Hud" layoutfile="s2r://panorama/layout/custom_game/hero_damage.xml"/>
+
+        <!-- <CustomUIElement type="Hud" layoutfile="s2r://panorama/layout/custom_game/hotkey.xml" /> -->
+
+       <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/barebones_notifications.xml" />
+       <CustomUIElement type="Hud" layoutfile="s2r://panorama/layout/custom_game/ability_book.xml" />
+       <CustomUIElement type="Hud" layoutfile="s2r://panorama/layout/custom_game/gameplay_ui.xml" style="z-index:3;" />
+       <CustomUIElement type="Hud" layoutfile="s2r://panorama/layout/custom_game/endgame/end_screen.xml" style="z-index:2;"/>
+   <!-- <CustomUIElement type="Hud" layoutfile="s2r://panorama/layout/custom_game/heroselectui/hero_init.xml"/> -->
+
+  </Panel>
+</root>   
+             

@@ -1,0 +1,213 @@
+.gameplaypanel{
+    width: 100%;
+    height: 100%;
+    
+}
+
+.setting_panel{
+    width: 1000px;
+    height: 50%;
+    align: center center;
+    background-color: rgba(0, 0, 0, 0.896);
+    visibility: collapse;
+}
+.setting_panel .spellpanel{
+    width: 1000px;
+    height: 50%;
+    align: center center;
+    background-color: rgba(0, 0, 0, 0.896);
+    flow-children: right-wrap;
+}
+.abilitybutton{
+    width: 128px;
+    height: 128px;
+}
+.singlespellpanel{
+    width: 128px;
+    height: 128px;
+}
+.sellspell{
+width: 40px;
+height: 20px;
+
+vertical-align: bottom;
+horizontal-align: right;
+
+background-image: url("file://{images}/main/button1.png");
+font-size: 10px;
+text-align: center;
+}
+.top_ui{
+    width: 100%;
+    height:130px;
+}
+#stat_data_panel{
+    vertical-align: center;
+    horizontal-align:center;
+    width: 1089px;
+    height: 44px;
+    margin-left: 3.5%;
+    background-image: url("file://{images}/main/bars/time_bj.png");
+
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition-property: opacity,transform;
+    transition-duration: 0.3s;
+    transform: translateX(0px) translateY(-20px);
+
+}
+#stat_data_panel.visiable{
+    transform: translateX(0px) translateY(0px);
+    transition-property: opacity,transform;
+    transition-duration: 0.3s;
+    opacity: 1;
+    
+}
+#time_data_panel{
+    vertical-align: center;
+    horizontal-align:center;
+    width:50px;
+    margin-right: 35px;
+    height:50px;
+    font-size: 24px; 
+    color: #fff;
+}
+
+#stat_data_panel1{
+    margin-left: 5%;
+    width:50%;
+    vertical-align: center;
+    height:40px;
+    border-radius:5px;
+    flow-children:right-wrap;
+}
+#wave_panel{
+    horizontal-align:center;
+    margin-left: 55%;
+    width:40%;
+    flow-children:right-wrap;
+    height:35px;
+}
+#wave_bar{
+    background-image: url("file://{images}/main/bars/attacking_process_bar.png");
+    
+    background-position: center;
+    
+    background-repeat: no-repeat;
+    width:45%;
+
+    height:25px;
+
+    
+}
+#wave_bar_1{
+    background-image: url("file://{images}/main/bars/fort_health_bar.png");
+    width: 100%;
+    height:25px;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+#wave_bar_2{
+    background-image: url("file://{images}/main/bars/fort_health_bar1.png");
+    
+    width: 100%;
+    height:25px;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+#boss_read{
+
+    margin-top: 2px;
+    background-image: url("file://{images}/main/bars/fort_war.png");
+    border-radius:5px;
+    width:70px;
+    background-position: center;
+    background-repeat: no-repeat;
+    height:40px;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+}
+.dark{
+    brightness: 0.2;
+}
+Label{
+    width: 150px;
+    height: 30px;
+    
+}
+#wave_stop{
+    margin-left: 20px;
+    margin-top: 2px;
+    background-image: url("file://{images}/main/bars/fort_upgrade.png");
+    border-radius:5px;
+    width:70px;
+    background-position: center;
+    background-repeat: no-repeat;
+    height:40px;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+}
+#settingbutton
+{
+   margin-left: 100px;
+    width: 50px;
+    
+	flow-children: none;
+
+	background-image: url("file://{images}/main/setting.png");
+}
+#settingbutton .buttonimg{
+    width: 50px;
+	opacity: 0;
+	transition-property: opacity;
+	transition-duration: 0.2s;
+}
+#settingbutton:hover .buttonimg{
+    opacity: 1;
+}
+#settingbutton:selected .buttonimg
+{
+	opacity: 1;
+}
+#settingbutton .RadioBox
+{
+	visibility: collapse;
+}
+#bottom_right_ui{
+    vertical-align: bottom;
+    horizontal-align:right;
+    width: 9.5%;
+    height: 5%;
+    background-color: rgba(0, 0, 0, 0.344);
+
+}
+#dialogpanel{
+    vertical-align: bottom;
+    horizontal-align: center; 
+}
+#comfirmdelete{
+    width: 500px;
+    height: 100px;
+    background-color: black;
+    vertical-align: bottom;
+    horizontal-align: center; 
+    flow-children:right-wrap;
+}
+#yessellspell{
+    width: 100px;
+    height: 50px;
+    background-color: brown;
+    font-size: 24px;
+	text-align: center;
+}
+#nosellspell{
+    width: 100px;
+    height: 50px;
+    background-color:aqua;
+    font-size: 24px;
+	text-align: center;
+}

@@ -1,0 +1,31 @@
+<!-- xml reconstructed by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io -->
+<root>
+	<scripts><include src="s2r://panorama/scripts/custom_game/vote_data.js" /></scripts>
+	<Panel style="flow-children:down-wrap;">
+		<Panel style="flow-children:right-wrap;">
+			<DOTAAvatarImage steamid="" style="width:60px;height:60px;margin:2px;" />
+			<Label text="" style="font-size:30px;color:white;margin:10px;" />
+			<Label text="" style="font-size:30px;color:white;margin:10px;" />
+		</Panel>
+		<Panel style="flow-children:right-wrap;">
+			<DOTAAvatarImage steamid="" style="width:60px;height:60px;margin:2px;" />
+			<Label text="" style="font-size:30px;color:white;margin:10px;" />
+			<Label text="" style="font-size:30px;color:white;margin:10px;" />
+		</Panel>
+		<Panel style="flow-children:right-wrap;">
+			<DOTAAvatarImage steamid="" style="width:60px;height:60px;margin:2px;" />
+			<Label text="" style="font-size:30px;color:white;margin:10px;" />
+			<Label text="" style="font-size:30px;color:white;margin:10px;" />
+		</Panel>
+		<Panel style="flow-children:right-wrap;">
+			<DOTAAvatarImage steamid="" style="width:60px;height:60px;margin:2px;" />
+			<Label text="" style="font-size:30px;color:white;margin:10px;" />
+			<Label text="" style="font-size:30px;color:white;margin:10px;" />
+		</Panel>
+		<Panel style="flow-children:right-wrap;">
+			<DOTAAvatarImage steamid="" style="width:60px;height:60px;margin:2px;" />
+			<Label text="" style="font-size:30px;color:white;margin:10px;" />
+			<Label text="" style="font-size:30px;color:white;margin:10px;" />
+		</Panel>
+	</Panel>
+</root>

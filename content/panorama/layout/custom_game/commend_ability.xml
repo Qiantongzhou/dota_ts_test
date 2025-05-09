@@ -1,0 +1,11 @@
+<!-- xml reconstructed by Source 2 Viewer 10.0.0.0 - https://valveresourceformat.github.io -->
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/custom_game/ability.vcss_c" />
+	</styles>
+
+	<scripts><include src="s2r://panorama/scripts/custom_game/commend_ability.js" /></scripts>
+	<Panel onmouseover="show_ability_tip()" onmouseout="DOTAHideAbilityTooltip()">
+		<DOTAAbilityImage class="ability_image" abilityname="" onactivate="commend_ability()" />
+	</Panel>
+</root>
