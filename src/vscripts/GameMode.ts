@@ -1,19 +1,27 @@
 import { reloadable } from "./lib/tstl-utils";
-import { xpTable } from "./lib/huizhou_lib/init";
+import { xpTable,drawHeroPool,loadHeroData,initNetTables } from "./lib/huizhou_lib/init";
+import { heroPool } from "./lib/huizhou_lib/hero_pool";
 
 declare global {
     interface CDOTAGameRules {
         Addon: GameMode;
     }
 }
+  /** Per-player scratch pad for arbitrary data you want to keep on the server. */
+  const playerData: Record<PlayerID, Record<string, unknown>> = {} as any;
 
+  /** Per-player ability pool (you fill this later when abilities are rolled). */
+  const playerAbilityPool: number[][] = Array.from({ length: 10 }, () => []);
+  
+  /** Per-player hero pool (30 heroes each, generated at start). */
+  const playerHeroPool: number[][] = Array.from({ length: 10 }, () => []);
 @reloadable
 export class GameMode {
+    
     public static Precache(this: void, context: CScriptPrecacheContext) {
         PrecacheResource("particle", "particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", context);
         PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_meepo.vsndevts", context);
         PrecacheResource("particle", "particles/units/heroes/hero_ember_spirit/ember_spirit_flameguard.vpcf", context);
-        PrecacheUnitByNameSync("npc_dota_neutral_kobold2", context)
     }
 
     public static Activate(this: void) {
@@ -23,7 +31,7 @@ export class GameMode {
 
     constructor() {
         this.configure();
-
+        this.InitGameMode();
         // Register event listeners for dota engine events
         ListenToGameEvent("game_rules_state_change", () => this.OnStateChange(), undefined);
         ListenToGameEvent("npc_spawned", event => this.OnNpcSpawned(event), undefined);
@@ -37,16 +45,28 @@ export class GameMode {
         GameRules.GetGameModeEntity().SetUseCustomHeroLevels(true)
         GameRules.GetGameModeEntity().SetCustomHeroMaxLevel(999)
     
-        GameRules.SetCustomGameSetupAutoLaunchDelay(2.0)
-        GameRules.SetHeroSelectionTime(20.0)
+        GameRules.SetCustomGameSetupAutoLaunchDelay(1.0)
+        GameRules.SetHeroSelectionTime(20000.0)
         GameRules.SetStrategyTime(10.0)
         GameRules.SetPreGameTime(5000.0)
         GameRules.SetShowcaseTime(0.0)
 
-        GameRules.SetShowcaseTime(0);
-        GameRules.SetHeroSelectionTime(20);
-
         
+    }
+    private InitGameMode():void{
+        for (let playerID = 0 as PlayerID; playerID < 10; ++playerID) {
+            playerData[playerID] = {};
+    
+            playerHeroPool[playerID] = drawHeroPool();      // 30 unique heroes
+            CustomNetTables.SetTableValue(
+                "hero_table",
+                playerID.toString(),
+                playerHeroPool[playerID],
+            );
+        }
+        CustomNetTables.SetTableValue( "map_info", "difficulty",0 );
+        loadHeroData(heroPool);
+        initNetTables();
     }
 
     public OnStateChange(): void {

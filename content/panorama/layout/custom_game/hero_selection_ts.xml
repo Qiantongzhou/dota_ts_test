@@ -1,0 +1,13 @@
+<!-- panorama/layout/custom_game/hero_selection_root.xml -->
+<root>
+    <styles>
+        <!-- bring in Valve defaults first, then your sheet -->
+        <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+        <include src="file://{resources}/styles/custom_game/hero_selection.css" />
+    </styles>
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/hero_selection.js" />
+    </scripts>
+    <Panel> 
+    </Panel> 
+</root>

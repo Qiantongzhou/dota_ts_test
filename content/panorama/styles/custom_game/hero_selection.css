@@ -1,0 +1,33 @@
+/* root container spans the whole screen */
+#HeroSelectRoot {
+    width: 100%;
+    height: 100%;
+}
+
+/* grid auto-wraps, so icons re-flow on any resolution */
+.HeroGrid {
+    width: 82%;
+    height: 72%;
+    horizontal-align: center;
+    vertical-align: center;
+    flow-children: left-wrap;     /* responsive magic */
+    padding: 0.5% 1%;
+}
+
+.HeroCard {
+    width: 6.5%;
+    height: 11.5%;
+    margin: 0.3%;
+}
+
+.HeroCard:hover        { brightness: 1.4; }
+.HeroCard.Selected     { border: 3px solid #ffdc00; }
+
+#StartBtn {
+    horizontal-align: center;
+    vertical-align: bottom;
+    margin-bottom: 2.5%;
+    padding: 8px 28px;
+    font-size: 28px;
+    background-color: #333c;
+}

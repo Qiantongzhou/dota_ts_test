@@ -44,5 +44,9 @@ interface CustomNetTableDeclarations {
         value:Record<PlayerID,number>
     }
     hero_data_table: Record<string, Record<string, string>>;
-    
+    hero_table: Record<string, number[]>;
+    selected_abilitys_table: Record<string, string[]>;
+    ability_pool: {
+      value: Record<string, string[]>;
+    };
 }

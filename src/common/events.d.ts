@@ -31,3 +31,10 @@ interface difficultySelect{
 
 // This event has no data
 interface UIPanelClosedEventData {}
+// src/common/events.d.ts
+interface CustomGameEventDeclarations {
+    hero_selected: { hero: string };
+    difficulty_vote: { playerId: PlayerID; difficulty: number };
+    hud_toggle: { visible: boolean };
+    // …add more events as your UI grows
+}

@@ -8,6 +8,7 @@
  *  globals.ts
  *  ─ A minimal, strongly‑typed port of the original Lua utility file ─
  *********************************************************************/
+import { abilityPool, specialAbilityPool } from "./ability_pool";   // adjust path
 
 
   /* ------------------------------------------------------------------ */
@@ -16,7 +17,9 @@
   
   export let bossDifficultyTable: Record<PlayerID, number> ;
   export let   bossDifficulty = 0;
-  
+/** Flattened list that other modules may want to access at runtime. */
+(globalThis as any).all_ability_pool = [] as string[];
+
   /* ------------------------------------------------------------------ */
   /* 1.  Difficulty voting (was: select_difficulty)                      */
   /* ------------------------------------------------------------------ */
@@ -190,4 +193,33 @@ export function xpTable(maxLvl: number): number[] {
   
     return xpTable;
   }
+  export function initNetTables(): void {
+    /* -----------------------------------------------------------
+     * 1)  selected_abilitys_table  — one empty row per player
+     * --------------------------------------------------------- */
+    for (let playerID = 0 as PlayerID; playerID < 10; ++playerID) {
+      CustomNetTables.SetTableValue(
+        "selected_abilitys_table",
+        playerID.toString(),
+        [],                               // start with no abilities chosen
+      );
+    }
   
+    /* -----------------------------------------------------------
+     * 2)  Build the global flat ability list  (all_ability_pool)
+     * --------------------------------------------------------- */
+    const allAbilityPool: string[] = (globalThis as any).all_ability_pool;
+  
+    // ordinary categories (abilityPool is Record<string, string[]>)
+    for (const abilities of Object.values(abilityPool)) {
+      allAbilityPool.push(...abilities);
+    }
+  
+    // special abilities
+    allAbilityPool.push(...specialAbilityPool);
+  
+    /* -----------------------------------------------------------
+     * 3)  Publish the structured pool so clients can read it
+     * --------------------------------------------------------- */
+    CustomNetTables.SetTableValue("ability_pool", "value", abilityPool);
+  }
