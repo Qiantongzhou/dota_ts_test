@@ -796,6 +796,9 @@ export const abilityPool: Record<string, string[]> = {
     ],
 };
 
-export const specialAbilityPool: string[] = [
-    "aghanim_laser1",
-];
+export const specialAbilityPool: Record<string,string[]> = {
+    npc_dota_hero_null: [
+
+    "aghanim_laser1","aghanim_laser1",
+    ],
+};

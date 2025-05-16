@@ -1,7 +1,7 @@
 import { reloadable } from "./lib/tstl-utils";
 import { xpTable,drawHeroPool,loadHeroData,initNetTables } from "./lib/huizhou_lib/init";
 import { heroPool } from "./lib/huizhou_lib/hero_pool";
-
+import { OnAbilitySelected,OnAbilityRemove,MAX_ABILITIES} from "./lib/huizhou_lib/ability_select"
 declare global {
     interface CDOTAGameRules {
         Addon: GameMode;
@@ -35,7 +35,17 @@ export class GameMode {
         // Register event listeners for dota engine events
         ListenToGameEvent("game_rules_state_change", () => this.OnStateChange(), undefined);
         ListenToGameEvent("npc_spawned", event => this.OnNpcSpawned(event), undefined);
-
+        CustomGameEventManager.RegisterListener(
+            "ability_selected",
+            (_, args) => OnAbilitySelected(args as CustomGameEventDeclarations["ability_selected"])
+          );
+          CustomGameEventManager.RegisterListener(
+            "ability_unselected",
+            (_, args) => OnAbilityRemove(args as CustomGameEventDeclarations["ability_unselected"])
+          );
+          CustomGameEventManager.RegisterListener(
+            "hero_selected", 
+            (_, args) =>this.onHeroSelected(args as CustomGameEventDeclarations["hero_selected"]));
     }
 
     private configure(): void {
@@ -64,7 +74,7 @@ export class GameMode {
                 playerHeroPool[playerID],
             );
         }
-        CustomNetTables.SetTableValue( "map_info", "difficulty",0 );
+        //CustomNetTables.SetTableValue( "map_info", "difficulty",0 );
         loadHeroData(heroPool);
         initNetTables();
     }
@@ -140,4 +150,36 @@ export class GameMode {
             }
         }
     }
+    
+    private OnAbilitySelected(event:CustomGameEventDeclarations){
+
+    }
+    private onHeroSelected(event: CustomGameEventDeclarations["hero_selected"]) {
+        const pid  = event.playerId as PlayerID;   // send this from the client
+        const hero = event.hero;
+      
+        const key  = tostring(pid);
+        const row  = CustomNetTables.GetTableValue("player_hero_table", key)
+      
+        /* ─── CASE 1: same hero already locked ⇒ unlock ─────────────────── */
+        if (row && row.hero === hero) {
+          CustomNetTables.SetTableValue("player_hero_table", key, {hero:" "}); // removes row
+          takenHeroes.delete(hero);
+          return;
+        }
+      
+        /* ─── CASE 2: hero taken by someone else ────────────────────────── */
+        if (takenHeroes.has(hero)) {
+          return;  // or send an error event back
+        }
+      
+        /* ─── CASE 3: accept new pick ───────────────────────────────────── */
+        CustomNetTables.SetTableValue("player_hero_table", key, { hero: hero});    // ← object!
+        takenHeroes.add(hero);
+      }
+      
 }
+/** Keeps track of heroes that are already taken (optional) */
+const takenHeroes = new Set<string>();
+
+

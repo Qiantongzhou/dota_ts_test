@@ -82,12 +82,18 @@ heroGrid.style.width           = "100%";
 heroGrid.style.flowChildren    = "right-wrap";
 heroGrid.style.padding         = "6px";
 
+/* NEW  ─ add vertical scrolling, keep horizontal squished/hidden */
+heroGrid.style.overflow        = "scroll";   // X  Y
+// - or -  heroGrid.style.overflow = "clip   scroll";
+
+
 // (ii) savings / perks
-const savingsPanel = $.CreatePanel("Panel", leftCol, "SavingsPanel");
-savingsPanel.style.backgroundColor = PALETTE.bgPanel;
-savingsPanel.style.borderTop       = `2px solid ${PALETTE.hudGreen}`;
-savingsPanel.style.height          = "20%";
-savingsPanel.style.width           = "100%";
+const HeroAbilities = $.CreatePanel("Panel", leftCol, "HeroAbilities");
+HeroAbilities.style.backgroundColor = PALETTE.bgPanel;
+HeroAbilities.style.borderTop       = `2px solid ${PALETTE.hudGreen}`;
+HeroAbilities.style.height          = "20%";
+HeroAbilities.style.width           = "100%";
+HeroAbilities.style.flowChildren    = "right";
 
 // (iii) boosters toggled on
 const boostersPanel = $.CreatePanel("Panel", leftCol, "BoostersPanel");
@@ -112,25 +118,29 @@ lvlcol.style.paddingLeft    = "12px";
 lvlcol.style.backgroundColor= "#0000";         // transparent until themed
 
 // (i) info banner
-const infoBar = $.CreatePanel("Panel", playCol, "InfoBar");
-infoBar.style.height          = "16%";
-infoBar.style.backgroundColor = PALETTE.hudGreen;
-infoBar.style.width           = "100%";
-infoBar.style.boxShadow       = "inset 0 -4px 8px #0006";
+const OtherPlayerBar = $.CreatePanel("Panel", playCol, "OtherPlayerBar");
+OtherPlayerBar.style.height          = "26%";
+OtherPlayerBar.style.backgroundColor = PALETTE.bgPanel;
+OtherPlayerBar.style.width           = "100%";
+OtherPlayerBar.style.boxShadow       = "inset 0 -4px 8px #0006";
+OtherPlayerBar.style.flowChildren    = "right-wrap";  // arrange many widgets
+OtherPlayerBar.style.padding         = "4px 6px";
+
 
 // (ii) portrait + abilities
 const midArea = $.CreatePanel("Panel", playCol, "MidArea");
-midArea.style.height          = "53%";
+midArea.style.height          = "43%";
 midArea.style.flowChildren    = "right";
 midArea.style.width           = "100%";
 midArea.style.marginTop       = "16px";
 
 //     hero portrait
 const portrait = $.CreatePanel("Panel", midArea, "Portrait");
-portrait.style.width           = "40%";
+portrait.style.width           = "35%";
 portrait.style.height          = "100%";
 portrait.style.backgroundColor = "#2e343b";
 portrait.style.boxShadow       = "0 0 8px #000c";
+portrait.style.overflow        = "clip";    // trim any inner zoom effects
 
 //     three big ability hexes
 const hexContainer = $.CreatePanel("Panel", midArea, "BigHexes");
@@ -149,13 +159,14 @@ for (let i = 0; i < 3; ++i) {
     big.style.washColor = PALETTE.hudBlue;
 }
 
-// (iii) description bar
-const descBar = $.CreatePanel("Panel", playCol, "DescBar");
-descBar.style.height          = "19%";
-descBar.style.backgroundColor = "#3b4249";
-descBar.style.marginTop       = "8px";
-descBar.style.width           = "100%";
-
+// (iii) Selectedabilities bar
+const Selectedabilities = $.CreatePanel("Panel", playCol, "Selectedabilities");
+Selectedabilities.style.height          = "19%";
+Selectedabilities.style.backgroundColor = "#3b4249";
+Selectedabilities.style.marginTop       = "8px";
+Selectedabilities.style.width           = "100%";
+Selectedabilities.style.flowChildren    = "right";   // icons flow left → right
+Selectedabilities.style.paddingLeft     = "6px";
 // (iv) bottom row – green token + START button
 const bottomRow = $.CreatePanel("Panel", playCol, "BottomRow");
 bottomRow.style.height           = "12%";
@@ -188,14 +199,68 @@ tinyGreen.style.backgroundColor  = PALETTE.hudGreen;
 // ────────────────────────────────────────────────────────────────────
 // 3.  HERO CARD BUILDER  –  yellow grid swapped for darker cards
 // ────────────────────────────────────────────────────────────────────
-const HEROES = [
-    "npc_dota_hero_axe", "npc_dota_hero_lina",
-    "npc_dota_hero_sven","npc_dota_hero_drow_ranger",
-    "npc_dota_hero_crystal_maiden",
-    // … add the other 25
-];
+// hero_selection.ts – inside your UI initialisation -----------------
+let HEROES: string[] = [];               // now mutable
 
-buildHeroCards(heroGrid);
+const localID = Players.GetLocalPlayer();
+
+function buildHeroArray(): string[] {
+    /* 1 ─ Pull the two rows we need ─────────────────────────────────── */
+    const data = CustomNetTables.GetTableValue("hero_data_table", "data")
+  
+    const picksObj = CustomNetTables.GetTableValue(
+                       "hero_table", String(localID))
+  
+    if (!data || !picksObj) return [];           // tables not ready yet
+  
+    /* 2 ─ Copy object → numeric array to preserve sort order ────────── */
+    const idList: number[] = [];
+    for (const k in picksObj) {
+      if (Object.prototype.hasOwnProperty.call(picksObj, k)) {
+        idList.push(picksObj[k]);                // "k" is "1","2"…
+      }
+    }
+    idList.sort((a, b) => a - b);                // same order as server
+   
+    /* 3 ─ Map idList → hero names without using Array.map ───────────── */
+    const heroes: string[] = [];
+    for (let i = 0; i < idList.length; ++i) {
+      const id       = idList[i];
+      const heroInfo = data[String(id)];
+      if (heroInfo && heroInfo.heroName) {
+        heroes.push(heroInfo.heroName);
+      }
+    }
+    return heroes;                               // ready for buildHeroCards
+  }
+  
+
+/** Re-draws the grid whenever our pool changes */
+function refreshHeroGrid(picks?: number[]) {
+    
+  // If called from the listener, we already have the new array → skip fetch
+  HEROES = picks ? picks.map(i => {
+              const d = CustomNetTables.GetTableValue("hero_data_table","data")!;
+              
+              return d[String(i)].heroName;
+           })
+         : buildHeroArray();
+
+  heroGrid.RemoveAndDeleteChildren();    // wipe old cards
+  buildHeroCards(heroGrid);              // uses the new global HEROES
+}
+
+// ──────────────────────────────────────────────────────────────
+// Initial pull (documents guarantee the table exists by now)
+refreshHeroGrid();
+
+// Live updates – only handle the key that matches *our* player
+CustomNetTables.SubscribeNetTableListener("hero_table",
+  (_, key, value) => {
+    if (Number(key) === localID) refreshHeroGrid(value as number[]);
+  });
+
+//buildHeroCards(heroGrid);
 let selected: string | undefined;
 
 function buildHeroCards(parent: Panel) {
@@ -213,7 +278,6 @@ function buildHeroCards(parent: Panel) {
         const img = $.CreatePanel("DOTAHeroImage", card, "");
         img.heroname           = heroName;
         img.style.width        = img.style.height = "100%";
-        img.style.saturation   = "0.85";
 
         card.SetPanelEvent("onmouseover", () => {
             card.style.transform   = "scale3d(1.05,1.05,1)";
@@ -237,8 +301,93 @@ function chooseHero(hero: string, card: Panel) {
     selected = hero;
     card.style.boxShadow       = `0 0 12px 2px ${PALETTE.hudGold}`;
     // TODO: Update portrait, ability hexes, etc.
+      // — refresh the portrait panel —
+  portrait.RemoveAndDeleteChildren();          // wipe any old image
+
+  const img = $.CreatePanel("DOTAHeroMovie", portrait, "HeroPortraitImg");
+  img.heroname           = hero;               // auto-loads hero render
+  img.style.width        = "100%";
+  img.style.height       = "100%";
+  img.style.saturation   = "1";
+  img.style.opacity      = "0";                // start faded-out
+  img.style.transition   = "opacity 0.15s ease-in-out 0s";
+  $.Schedule(0.0, () => (img.style.opacity = "1")); // next frame → fade-in
+
+    showAbilityHero(hero);
 }
 
+    interface AbilityPoolSection {          // e.g. { axe: ["axe_berserkers_call", …] }
+      [heroName: string]: string[];
+    }
+
+    let ABILITY_POOL: CustomNetTableDeclarations["ability_pool"] | undefined;
+
+    function cacheAbilityPool() {
+      ABILITY_POOL = {
+        normal:  CustomNetTables.GetTableValue("ability_pool", "normal")  as AbilityPoolSection,
+        special: CustomNetTables.GetTableValue("ability_pool", "special") as AbilityPoolSection,
+      };
+    }
+    
+    cacheAbilityPool();  // initial pull
+    CustomNetTables.SubscribeNetTableListener("ability_pool", cacheAbilityPool);
+    let currentHeroShown: string | undefined;              // which hero pool UI is open
+    let abilityPanels: Record<string, Panel> = {};         // abilityName ➜ panel
+  
+    function showAbilityHero(hero: string) {
+        currentHeroShown = hero;           // remember which list is displayed
+        abilityPanels    = {};             // wipe previous mapping
+      
+        HeroAbilities.RemoveAndDeleteChildren();
+        if (!ABILITY_POOL) return;
+      
+        const raw = ABILITY_POOL.normal[hero];
+        if (!raw) return;
+      
+        const picks     = Array.isArray(raw) ? raw : Object.values(raw) as string[];
+        const selected  = getPlayerSelectedSet();   // helper below
+      
+        for (const name of picks) {
+          const img = $.CreatePanel("DOTAAbilityImage", HeroAbilities, "");
+          img.abilityname      = name;
+          img.style.width      = "90px";
+          img.style.height     = "90px";
+          img.style.marginRight= "12px";
+      
+          abilityPanels[name] = img;       // register for live updates
+          applyPickedStyle(img, selected.has(name));  // initial style
+      
+          if (selected.has(name)) continue;           // disable already-chosen
+      
+          img.hittest          = true;
+          img.SetPanelEvent("onmouseover", () => {
+            $.DispatchEvent("DOTAShowAbilityTooltip", img, name);   // tooltip
+            if (!selected.has(name)) img.style.transform = "scale3d(1.05,1.05,1)";
+          });
+      
+          img.SetPanelEvent("onmouseout", () => {
+            $.DispatchEvent("DOTAHideAbilityTooltip", img);
+            if (!selected.has(name)) img.style.transform = "scale3d(1,1,1)";
+          });
+          img.SetPanelEvent("onactivate", () => {
+            GameEvents.SendCustomGameEventToServer("ability_selected", {
+              playerId : localID,
+              ability  : name,
+              heroName : hero
+            });
+          });
+        }
+      }
+
+      
+      function getPlayerSelectedSet(): Set<string> {
+        const row = CustomNetTables.GetTableValue("selected_abilitys_table", String(localID))
+                 
+        return new Set(row ? Object.values(row) : []);
+      }
+      
+      
+  
 function tryReady() {
     if (!selected) {
         $.Msg("Pick a hero first!");
@@ -247,3 +396,189 @@ function tryReady() {
     GameEvents.SendCustomGameEventToServer("hero_selected", { hero: selected });
     $.Msg("ui.pick_play");
 }
+
+
+  
+  // -----------------------------------------------------------------------------
+  // 3 · draw / refresh the icons in the panel
+  // -----------------------------------------------------------------------------
+  function repaintSelectedAbilities(picks: string[]) {
+    Selectedabilities.RemoveAndDeleteChildren();
+  
+    for (const name of picks) {
+      const icon = $.CreatePanel("DOTAAbilityImage", Selectedabilities, "");
+      icon.abilityname      = name;
+      icon.style.width      = "72px";
+      icon.style.height     = "72px";
+      icon.style.marginRight= "6px";
+      icon.hittest          = true;              // ← enable mouse events
+  
+      /* optional hover tint */
+      icon.SetPanelEvent("onmouseover", () => {icon.style.brightness = "1.2"
+        $.DispatchEvent("DOTAShowAbilityTooltip", icon, name); 
+      });
+      icon.SetPanelEvent("onmouseout",  () => {icon.style.brightness = "1"
+        $.DispatchEvent("DOTAHideAbilityTooltip", icon);
+      }
+    );
+  
+      /* click to remove */
+      icon.SetPanelEvent("onactivate", () => {
+        /* quick 0.15 s fade-out then delete */
+        icon.style.transition = "opacity 0.15s ease 0s";
+        icon.style.opacity    = "0";
+        icon.DeleteAsync(0.15);
+  
+        GameEvents.SendCustomGameEventToServer("ability_unselected", {
+          player_id: Players.GetLocalPlayer(),
+          ability   : name
+        });
+      });
+    }
+  
+    if (picks.length === 0) {
+      const label = $.CreatePanel("Label", Selectedabilities, "");
+      label.text  = $.Localize("#hud_no_abilities_selected");
+      label.style.color = "#999";
+      label.style.verticalAlign = "center";
+    }
+  }
+  
+  
+  // -----------------------------------------------------------------------------
+  // 4 · subscribe once – fires on every SetTableValue
+  // -----------------------------------------------------------------------------
+
+  
+  CustomNetTables.SubscribeNetTableListener(
+    "selected_abilitys_table",
+    (_, key, row) => {
+      if (Number(key) !== localID) return;           // ignore other players
+      repaintSelectedAbilities(rowToArray(row as Record<string,string>));
+
+    // only react if we’re currently showing a hero pool
+    if (!currentHeroShown) return;
+
+    const selected = new Set(Object.values(row as Record<string,string>));
+
+    // loop over the panels we rendered and toggle their style
+    for (const [ability, panel] of Object.entries(abilityPanels)) {
+      if (!panel.IsValid()) continue;             // panel may have been deleted
+      applyPickedStyle(panel, selected.has(ability));
+    }
+    }
+  );
+  
+  // -----------------------------------------------------------------------------
+  // 5 · initial pull (in case the row already existed before we subscribed)
+  // -----------------------------------------------------------------------------
+  const initialRow = CustomNetTables.GetTableValue(
+    "selected_abilitys_table",
+    String(localID)
+  ) as Record<string, string> | undefined;
+  
+  repaintSelectedAbilities(rowToArray(initialRow));
+
+
+
+
+  
+  interface PlayerRowWidgets {
+    root      : Panel;            // the outer frame
+    nameLabel : LabelPanel;
+    portrait  : HeroImage;
+    abilityWrap: Panel;           // holds ≤ 10 icons
+  }
+  
+  const playerRows: Record<string, PlayerRowWidgets> = {};
+  
+  function ensureRow(pid: string): PlayerRowWidgets {
+    if (playerRows[pid]) return playerRows[pid];
+  
+    /* root frame — fixed size so all cells line up */
+    const root   = $.CreatePanel("Panel", OtherPlayerBar, `PlayerRow_${pid}`);
+    root.style.width        = "170px";
+    root.style.height       = "220px";
+    root.style.margin       = "6px";
+    root.style.border       = "2px solid #0008";
+    root.style.borderRadius = "6px";
+    root.style.backgroundColor = "#262c31";
+    root.style.flowChildren = "down";     // three stacked blocks
+  
+    /* 1️⃣  name bar -------------------------------------------------- */
+    const nameLabel = $.CreatePanel("Label", root, "");
+    nameLabel.text  = Players.GetPlayerName(Number(pid) as PlayerID) || `Player ${pid}`;
+    nameLabel.style.height   = "24px";
+    nameLabel.style.margin   = "4px";
+    nameLabel.style.horizontalAlign = "center";
+    nameLabel.style.fontSize = "16px";
+    nameLabel.style.color    = "#d1b35b";
+  
+    /* 2️⃣  hero portrait -------------------------------------------- */
+    const portrait = $.CreatePanel("DOTAHeroImage", root, "");
+    portrait.style.width  = "100%";
+    portrait.style.height = "100px";      // fills most of the card
+    portrait.style.margin = "4px 6px";
+  
+    /* 3️⃣  ability grid (2 × 5) ------------------------------------ */
+    const abilityWrap = $.CreatePanel("Panel", root, "");
+    abilityWrap.style.width        = "100%";
+    abilityWrap.style.height       = "70px";
+    abilityWrap.style.flowChildren = "right-wrap";
+    abilityWrap.style.horizontalAlign = "center";
+    abilityWrap.style.padding      = "2px 6px";
+  
+    playerRows[pid] = { root, nameLabel, portrait: portrait as unknown as HeroImage, abilityWrap };
+    return playerRows[pid];
+  }
+  
+  
+  function rowToArray(row: Record<string, string> | undefined): string[] {
+    if (!row) return [];
+    // row arrives as { "1":"axe_berserkers_call", "2":"axe_culling_blade", … }
+    const out: string[] = [];
+    for (const k in row) {
+      if (Object.prototype.hasOwnProperty.call(row, k)) {
+        out.push(row[k]);
+      }
+    }
+    return out.sort();  // keep a stable visual order (optional)
+  }
+  
+  function applyPickedStyle(panel: Panel, picked: boolean) {
+    panel.hittest        = true;
+    panel.style.saturation = picked ? "0"   : "1";
+    panel.style.opacity    = picked ? "0.35": "1";
+  }
+  function repaintPlayer(pid: string) {
+    const heroRow    = CustomNetTables.GetTableValue("player_hero_table", pid);
+    const abilityRow = CustomNetTables.GetTableValue("selected_abilitys_table", pid)as Record<string, string> | undefined;
+  
+    const w = ensureRow(pid);
+  
+    /* hero portrait */
+    w.portrait.heroname = heroRow? heroRow: "";   // blank until chosen
+  
+    /* ability grid */
+    w.abilityWrap.RemoveAndDeleteChildren();
+    rowToArray(abilityRow).forEach(name => {
+      const ico = $.CreatePanel("DOTAAbilityImage", w.abilityWrap, "");
+      ico.abilityname  = name;
+      ico.style.width  = ico.style.height = "27px";
+      ico.style.margin = "2px";
+      applyPickedStyle(ico,false);                     // always greyed
+    });
+  }
+  
+  /* hero chosen */
+CustomNetTables.SubscribeNetTableListener("player_hero_table",
+    (_, k) => repaintPlayer(k));
+  
+  /* abilities added/removed */
+  CustomNetTables.SubscribeNetTableListener("selected_abilitys_table",
+    (_, k) => repaintPlayer(k));
+  
+  /* one-time pass for players who locked in before we opened the UI */
+  Game.GetAllPlayerIDs().forEach(()=>repaintPlayer);
+  
+  

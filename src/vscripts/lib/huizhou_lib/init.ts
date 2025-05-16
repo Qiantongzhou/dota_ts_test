@@ -99,62 +99,52 @@ import { abilityPool, specialAbilityPool } from "./ability_pool";   // adjust pa
   /* 3.  Hero stat NetTable (was: load_hero_data)                        */
   /* ------------------------------------------------------------------ */
   
-  /**
-   * Push a bunch of static hero information to the “hero_data_table” NetTable so
-   * the panorama UI can read it without extra C‐to‐JS calls.
-   *
-   * @param heroPool array of hero names (e.g. "npc_dota_hero_axe")
-   */
-  export function loadHeroData(heroPool: string[]): void {
-    for (const heroName of heroPool) {
-      let h = DOTAGameManager.GetHeroDataByName_Script(heroName )as HeroData;
-  
-      /* Average base damage (matches the Lua logic) ------------------ */
-      let avgDmg = (h.AttackDamageMin + h.AttackDamageMax) / 2;
-      switch (h.AttributePrimary) {
-        case "DOTA_ATTRIBUTE_STRENGTH":
-          avgDmg += h.AttributeBaseStrength;
-          break;
-        case "DOTA_ATTRIBUTE_AGILITY":
-          avgDmg += h.AttributeBaseAgility;
-          break;
-        case "DOTA_ATTRIBUTE_INTELLECT":
-          avgDmg += h.AttributeBaseIntelligence;
-          break;
-        default:
-          avgDmg += (h.AttributeBaseStrength + h.AttributeBaseAgility + h.AttributeBaseIntelligence) * 0.7;
-      }
-  
-      /* Assemble the record exactly like the original keys ------------ */
-      const record: Record<string, string> = {
-        HeroType: h.AttributePrimary,
-  
-        AttributeBaseStrength:  `${h.AttributeBaseStrength}`,
-        AttributeBaseAgility:   `${h.AttributeBaseAgility}`,
-        AttributeBaseIntelligence: `${h.AttributeBaseIntelligence}`,
-  
-        AttributeStrengthGain:  h.AttributeStrengthGain.toFixed(2),
-        AttributeAgilityGain:   h.AttributeAgilityGain.toFixed(2),
-        AttributeIntelligenceGain: h.AttributeIntelligenceGain.toFixed(2),
-  
-        AttackDamage:           avgDmg.toFixed(0),
-        ArmorPhysical:          (h.ArmorPhysical + h.AttributeBaseAgility / 6).toFixed(1),
-  
-        MovementSpeed:          `${h.MovementSpeed}`,
-        AttackRate:             h.AttackRate.toFixed(2),
-        BaseAttackSpeed:        `${h.BaseAttackSpeed}`,
-        AttackRange:            `${h.AttackRange}`,
-  
-        StatusHealth:           `${h.StatusHealth + h.AttributeBaseStrength * 22}`,
-        StatusHealthRegen:      (h.StatusHealthRegen + h.AttributeBaseStrength * 0.1).toFixed(1),
-  
-        StatusMana:             `${h.StatusMana + h.AttributeBaseIntelligence * 12}`,
-        StatusManaRegen:        (h.StatusManaRegen + h.AttributeBaseIntelligence * 0.05).toFixed(1),
-      };
-  
-      CustomNetTables.SetTableValue("hero_data_table", heroName, record);
+/**
+ * Populates hero_data_table once per match.
+ * @param heroPool  Ordered list of hero string names to expose this game.
+ * @returns         Record keyed by numeric IDs – ready for hero_table linking.
+ */
+export function loadHeroData(heroPool: string[]): Record<string, HeroInfo> {
+  const heroData: Record<string, HeroInfo> = {};
+  let id = 1;
+
+  for (const heroName of heroPool) {
+    
+    const h = DOTAGameManager.GetHeroDataByName_Script(heroName) as HeroData;
+
+    /* — Average base damage + primary-attr bonus (matches Lua) — */
+    let avg = (h.AttackDamageMin + h.AttackDamageMax) / 2;
+    switch (h.AttributePrimary) {
+      case "DOTA_ATTRIBUTE_STRENGTH":   avg += h.AttributeBaseStrength;      break;
+      case "DOTA_ATTRIBUTE_AGILITY":    avg += h.AttributeBaseAgility;       break;
+      case "DOTA_ATTRIBUTE_INTELLECT":  avg += h.AttributeBaseIntelligence;  break;
+      default:  // universal
+        avg += (h.AttributeBaseStrength + h.AttributeBaseAgility +
+                h.AttributeBaseIntelligence) * 0.7;
     }
+
+    heroData[id.toString()] = {
+      heroName,
+      primaryAttr: h.AttributePrimary === "DOTA_ATTRIBUTE_STRENGTH" ? "str"
+                 : h.AttributePrimary === "DOTA_ATTRIBUTE_AGILITY"  ? "agi"
+                 : h.AttributePrimary === "DOTA_ATTRIBUTE_INTELLECT"? "int"
+                 : "uni",
+      avgBaseDamage: Math.round(avg),
+      baseStr:   h.AttributeBaseStrength,
+      baseAgi:   h.AttributeBaseAgility,
+      baseInt:   h.AttributeBaseIntelligence,
+      moveSpeed: h.MovementSpeed,
+      armor:     +(h.ArmorPhysical + h.AttributeBaseAgility / 6).toFixed(1),
+      attackRate:h.AttackRate
+    };
+
+    id += 1;
   }
+
+  /* One network push instead of spamming 30+ individual sets */
+  CustomNetTables.SetTableValue("hero_data_table", "data", heroData);
+  return heroData;
+}
   
 export function xpTable(maxLvl: number): number[] {
     const xpTable: number[] = [];
@@ -204,22 +194,7 @@ export function xpTable(maxLvl: number): number[] {
         [],                               // start with no abilities chosen
       );
     }
-  
-    /* -----------------------------------------------------------
-     * 2)  Build the global flat ability list  (all_ability_pool)
-     * --------------------------------------------------------- */
-    const allAbilityPool: string[] = (globalThis as any).all_ability_pool;
-  
-    // ordinary categories (abilityPool is Record<string, string[]>)
-    for (const abilities of Object.values(abilityPool)) {
-      allAbilityPool.push(...abilities);
-    }
-  
-    // special abilities
-    allAbilityPool.push(...specialAbilityPool);
-  
-    /* -----------------------------------------------------------
-     * 3)  Publish the structured pool so clients can read it
-     * --------------------------------------------------------- */
-    CustomNetTables.SetTableValue("ability_pool", "value", abilityPool);
+    
+    CustomNetTables.SetTableValue("ability_pool", "normal", abilityPool);
+    CustomNetTables.SetTableValue("ability_pool", "special", specialAbilityPool);
   }

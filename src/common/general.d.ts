@@ -43,10 +43,22 @@ interface CustomNetTableDeclarations {
     vote_table:{
         value:Record<PlayerID,number>
     }
-    hero_data_table: Record<string, Record<string, string>>;
+    hero_data_table: Record<string,Record<string, HeroInfo>>;
     hero_table: Record<string, number[]>;
     selected_abilitys_table: Record<string, string[]>;
-    ability_pool: {
-      value: Record<string, string[]>;
-    };
+    ability_pool:
+      Record<string,Record<string, string[]>>;
+      player_hero_table:Record<string,{hero:string}>;
 }
+// hero_loader.ts  – server-side (VS Lua or TypeScript) -------------------------
+interface HeroInfo {
+    heroName:       string;
+    primaryAttr:    "str" | "agi" | "int" | "uni";
+    avgBaseDamage:  number;      // rounded
+    baseStr:        number;
+    baseAgi:        number;
+    baseInt:        number;
+    moveSpeed:      number;
+    armor:          number;
+    attackRate:     number;
+  }
