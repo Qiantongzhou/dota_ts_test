@@ -119,7 +119,7 @@ lvlcol.style.backgroundColor= "#0000";         // transparent until themed
 
 // (i) info banner
 const OtherPlayerBar = $.CreatePanel("Panel", playCol, "OtherPlayerBar");
-OtherPlayerBar.style.height          = "26%";
+OtherPlayerBar.style.height          = "30%";
 OtherPlayerBar.style.backgroundColor = PALETTE.bgPanel;
 OtherPlayerBar.style.width           = "100%";
 OtherPlayerBar.style.boxShadow       = "inset 0 -4px 8px #0006";
@@ -161,7 +161,7 @@ for (let i = 0; i < 3; ++i) {
 
 // (iii) Selectedabilities bar
 const Selectedabilities = $.CreatePanel("Panel", playCol, "Selectedabilities");
-Selectedabilities.style.height          = "19%";
+Selectedabilities.style.height          = "9%";
 Selectedabilities.style.backgroundColor = "#3b4249";
 Selectedabilities.style.marginTop       = "8px";
 Selectedabilities.style.width           = "100%";
@@ -393,7 +393,7 @@ function tryReady() {
         $.Msg("Pick a hero first!");
         return;
     }
-    GameEvents.SendCustomGameEventToServer("hero_selected", { hero: selected });
+    GameEvents.SendCustomGameEventToServer("hero_selected", {playerId:localID, hero: selected });
     $.Msg("ui.pick_play");
 }
 
@@ -497,8 +497,8 @@ function tryReady() {
   
     /* root frame — fixed size so all cells line up */
     const root   = $.CreatePanel("Panel", OtherPlayerBar, `PlayerRow_${pid}`);
-    root.style.width        = "170px";
-    root.style.height       = "220px";
+    root.style.width        = "150px";
+    root.style.height       = "720px";
     root.style.margin       = "6px";
     root.style.border       = "2px solid #0008";
     root.style.borderRadius = "6px";
@@ -515,10 +515,10 @@ function tryReady() {
     nameLabel.style.color    = "#d1b35b";
   
     /* 2️⃣  hero portrait -------------------------------------------- */
-    const portrait = $.CreatePanel("DOTAHeroImage", root, "");
-    portrait.style.width  = "100%";
-    portrait.style.height = "100px";      // fills most of the card
-    portrait.style.margin = "4px 6px";
+    const portrait = $.CreatePanel("DOTAHeroMovie", root, "");
+    
+    /* 👇  this trims everything beyond those bounds */
+    portrait.style.overflow = "clip";   // same as "clip clip"
   
     /* 3️⃣  ability grid (2 × 5) ------------------------------------ */
     const abilityWrap = $.CreatePanel("Panel", root, "");
@@ -555,9 +555,9 @@ function tryReady() {
     const abilityRow = CustomNetTables.GetTableValue("selected_abilitys_table", pid)as Record<string, string> | undefined;
   
     const w = ensureRow(pid);
-  
+
     /* hero portrait */
-    w.portrait.heroname = heroRow? heroRow: "";   // blank until chosen
+    w.portrait.heroname = heroRow?.hero? heroRow.hero: "";   // blank until chosen
   
     /* ability grid */
     w.abilityWrap.RemoveAndDeleteChildren();
