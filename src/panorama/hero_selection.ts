@@ -497,12 +497,12 @@ function tryReady() {
   
     /* root frame — fixed size so all cells line up */
     const root   = $.CreatePanel("Panel", OtherPlayerBar, `PlayerRow_${pid}`);
-    root.style.width        = "150px";
-    root.style.height       = "720px";
+    root.style.width        = "170px";
+    root.style.height       = "270px";
     root.style.margin       = "6px";
     root.style.border       = "2px solid #0008";
     root.style.borderRadius = "6px";
-    root.style.backgroundColor = "#262c31";
+    root.style.backgroundColor = "#262c55";
     root.style.flowChildren = "down";     // three stacked blocks
   
     /* 1️⃣  name bar -------------------------------------------------- */
@@ -516,7 +516,9 @@ function tryReady() {
   
     /* 2️⃣  hero portrait -------------------------------------------- */
     const portrait = $.CreatePanel("DOTAHeroMovie", root, "");
-    
+    portrait.style.width  ="80%";
+    portrait.style.height  ="60%";
+    portrait.style.horizontalAlign  ="center";
     /* 👇  this trims everything beyond those bounds */
     portrait.style.overflow = "clip";   // same as "clip clip"
   
@@ -581,4 +583,88 @@ CustomNetTables.SubscribeNetTableListener("player_hero_table",
   /* one-time pass for players who locked in before we opened the UI */
   Game.GetAllPlayerIDs().forEach(()=>repaintPlayer);
   
-  
+  let   hostID    = 0;
+let   currentDiff = 0;
+/* ---------------------------------------------------------------
+   3 · build the level buttons once  (after lvlcol is created)
+-----------------------------------------------------------------*/
+function buildDifficultyButtons(levels: number[]) {
+  lvlcol.RemoveAndDeleteChildren();          // wipe any old build
+  levels.forEach(diff => {
+    const btn = $.CreatePanel("Panel", lvlcol, `Diff_${diff}`);
+    btn.style.width  = btn.style.height = "56px";
+    btn.style.marginBottom = "12px";
+    btn.style.border       = "2px solid #0008";
+    btn.style.borderRadius = "4px";
+    btn.style.backgroundColor = "#3b4249";
+    btn.style.flowChildren = "down";
+
+    /* label (big digit) */
+    const lbl = $.CreatePanel("Label", btn, "");
+    lbl.text  = String(diff + 1);            // show 1-based
+    lbl.style.horizontalAlign = "center";
+    lbl.style.verticalAlign   = "center";
+    lbl.style.fontSize        = "28px";
+    lbl.style.color           = "#e8e8e8";
+    lbl.style.textShadow      = "0 0 4px #000";
+
+    /* hover & click only if host */
+    const interactive = () => localID === hostID;
+
+    btn.SetPanelEvent("onmouseover", () => {
+      if (interactive()) btn.style.transform = "scale3d(1.08,1.08,1)";
+    });
+    btn.SetPanelEvent("onmouseout", () => {
+      if (interactive()) btn.style.transform = "scale3d(1,1,1)";
+    });
+    btn.SetPanelEvent("onactivate", () => {
+      if (!interactive()) {
+        $.Msg("Only the lobby host may pick the difficulty.");
+        return;
+      }
+      GameEvents.SendCustomGameEventToServer("difficulty_selected", {
+        difficulty: diff
+      });
+    });
+  });
+
+  highlightDifficulty(currentDiff);          // mark current pick
+}
+
+/* ---------------------------------------------------------------
+   4 · highlight helper
+-----------------------------------------------------------------*/
+function highlightDifficulty(diff: number) {
+  currentDiff = diff;
+  (lvlcol.Children() as Panel[]).forEach(p => {
+    const isSel = p.id === `Diff_${diff}`;
+    p.style.border = isSel
+      ? "3px solid #d1b35b"  // gold highlight
+      : "2px solid #0008";
+  });
+}
+
+/* ---------------------------------------------------------------
+   5 · net-table listeners
+-----------------------------------------------------------------*/
+function syncFromMapInfo(row?: { difficulty: number; hostId: number }) {
+  if (!row) return;
+  //hostID = row.hostId;
+  highlightDifficulty(row.difficulty);
+}
+
+CustomNetTables.SubscribeNetTableListener("map",
+  (_, __, value) => syncFromMapInfo(value as any));
+
+/* — optional: pool may arrive after map loads — */
+CustomNetTables.SubscribeNetTableListener("difficulty_pool",
+  (_, __, tbl)  => buildDifficultyButtons((tbl as { list:number[] }).list));
+
+/* ---------------------------------------------------------------
+   6 · initial pull (works even on reload)
+-----------------------------------------------------------------*/
+const startMapInfo = CustomNetTables.GetTableValue("map", "difficulty");
+syncFromMapInfo(startMapInfo as any);
+
+const poolRow = CustomNetTables.GetTableValue("difficulty_pool", "list") as { list:number[] }|undefined;
+buildDifficultyButtons(poolRow?.list ?? [0,1,2,3,4]);  // default 5 levels if none sent

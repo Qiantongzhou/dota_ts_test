@@ -15,8 +15,7 @@ import { abilityPool, specialAbilityPool } from "./ability_pool";   // adjust pa
   /* Global state                                                       */
   /* ------------------------------------------------------------------ */
   
-  export let bossDifficultyTable: Record<PlayerID, number> ;
-  export let   bossDifficulty = 0;
+
 /** Flattened list that other modules may want to access at runtime. */
 (globalThis as any).all_ability_pool = [] as string[];
 
@@ -30,45 +29,46 @@ import { abilityPool, specialAbilityPool } from "./ability_pool";   // adjust pa
    * The host’s vote counts as 3; every other player counts as 1.  
    * Result is broadcast both via a custom game‑event and a NetTable.
    */
-  export function selectDifficulty(data: { PlayerID: PlayerID; difficulty: number }): void {
+  export function selectDifficulty(event:CustomGameEventDeclarations["difficulty_selected"]): void {
     /* 1‑A. Save the vote and echo it back so clients update their UI */
-    bossDifficultyTable[data.PlayerID] = data.difficulty;
-    CustomNetTables.SetTableValue("vote_table", "value", bossDifficultyTable);
+    //bossDifficultyTable[0] = event.difficulty;
+    //CustomNetTables.SetTableValue("vote_table", "value", bossDifficultyTable);
   
     /* 1‑B. In‑chat feedback */
-    GameRules.SendCustomMessage(`difficulty${data.difficulty}`, 0, 0);
+    GameRules.SendCustomMessage(`difficulty${event.difficulty}`, 0, 0);
   
-    const voter = PlayerResource.GetPlayer(data.PlayerID);
-    if (voter && GameRules.PlayerHasCustomGameHostPrivileges(voter)) {
-      GameRules.SendCustomMessage("tip_host_vote", 0, 0);
-    }
+    // const voter = PlayerResource.GetPlayer(0);
+    // if (voter && GameRules.PlayerHasCustomGameHostPrivileges(voter)) {
+    //   GameRules.SendCustomMessage("tip_host_vote", 0, 0);
+    // }
   
-    /* 1‑C. Tally the votes (levels 0‑9) */
-    let bestDifficulty = 0;
-    let bestScore      = 0;
+    // /* 1‑C. Tally the votes (levels 0‑9) */
+    // let bestDifficulty = 0;
+    // let bestScore      = 0;
   
-    for (let lvl = 0; lvl <= 9; ++lvl) {
-      let score = 0;
+    // for (let lvl = 0; lvl <= 9; ++lvl) {
+    //   let score = 0;
   
-      for (const [pidStr, diff] of Object.entries(bossDifficultyTable)) {
-        if (diff === lvl) {
-          const pid   = (pidStr as unknown) as PlayerID;
-          const ply   = PlayerResource.GetPlayer(pid);
-          const hostBonus = ply && GameRules.PlayerHasCustomGameHostPrivileges(ply) ? 3 : 1;
-          score += hostBonus;
-        }
-      }
+    //   for (const [pidStr, diff] of Object.entries(bossDifficultyTable)) {
+    //     if (diff === lvl) {
+    //       const pid   = (pidStr as unknown) as PlayerID;
+    //       const ply   = PlayerResource.GetPlayer(pid);
+    //       const hostBonus = ply && GameRules.PlayerHasCustomGameHostPrivileges(ply) ? 3 : 1;
+    //       score += hostBonus;
+    //     }
+    //   }
   
-      if (score > bestScore) {
-        bestDifficulty = lvl;
-        bestScore      = score;
-      }
-    }
+    //   if (score > bestScore) {
+    //     bestDifficulty = lvl;
+    //     bestScore      = score;
+    //   }
+    // }
   
     /* 1‑D. Store + broadcast the final result */
-    bossDifficulty = bestDifficulty;
-    CustomGameEventManager.Send_ServerToAllClients("selected_difficulty", { value: bestDifficulty });
-    CustomNetTables.SetTableValue("map_info", "difficulty",  bestDifficulty);
+    const bossDifficulty = event.difficulty;
+    CustomGameEventManager.Send_ServerToAllClients("selected_difficulty", { value: bossDifficulty });
+    CustomNetTables.SetTableValue("difficulty_pool", "list", [0,1,2,3,4] );
+    CustomNetTables.SetTableValue("map", "difficulty",  {difficulty:bossDifficulty});
   }
 
 
@@ -197,4 +197,6 @@ export function xpTable(maxLvl: number): number[] {
     
     CustomNetTables.SetTableValue("ability_pool", "normal", abilityPool);
     CustomNetTables.SetTableValue("ability_pool", "special", specialAbilityPool);
+    CustomNetTables.SetTableValue("difficulty_pool", "list", [0,1,2,3,4] );
+    //CustomNetTables.SetTableValue("map_info", "difficulty", 0);
   }

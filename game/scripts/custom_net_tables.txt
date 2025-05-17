@@ -3,6 +3,8 @@
     custom_net_tables =
     [
     "map_info",
+    "map",
+    "difficulty_pool",
     "vote_table",
     "hero_data_table",
     "hero_table",

@@ -1,5 +1,5 @@
 import { reloadable } from "./lib/tstl-utils";
-import { xpTable,drawHeroPool,loadHeroData,initNetTables } from "./lib/huizhou_lib/init";
+import { xpTable,drawHeroPool,loadHeroData,initNetTables,selectDifficulty } from "./lib/huizhou_lib/init";
 import { heroPool } from "./lib/huizhou_lib/hero_pool";
 import { OnAbilitySelected,OnAbilityRemove,MAX_ABILITIES} from "./lib/huizhou_lib/ability_select"
 declare global {
@@ -46,6 +46,10 @@ export class GameMode {
           CustomGameEventManager.RegisterListener(
             "hero_selected", 
             (_, args) =>this.onHeroSelected(args as CustomGameEventDeclarations["hero_selected"]));
+        CustomGameEventManager.RegisterListener(
+            "difficulty_selected",
+            (_, args) => selectDifficulty(args as CustomGameEventDeclarations["difficulty_selected"])
+          );
     }
 
     private configure(): void {

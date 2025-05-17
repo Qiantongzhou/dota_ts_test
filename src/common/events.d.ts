@@ -35,7 +35,7 @@ interface ability_sync{}
 // src/common/events.d.ts
 interface CustomGameEventDeclarations {
     hero_selected: { playerId: PlayerID; hero: string };
-    difficulty_vote: { playerId: PlayerID; difficulty: number };
+    difficulty_selected: { difficulty: number };
     hud_toggle: { visible: boolean };
     ability_selected:{playerId:PlayerID;ability:any;heroName:any};
     ability_sync     : {};   

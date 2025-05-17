@@ -34,12 +34,11 @@ interface HeroData {
     StatusManaRegen: number;
     // Add other properties as needed
   }
-  
+
 //you have to set custom net table here
 interface CustomNetTableDeclarations {
-    map_info:{
-        difficulty:number
-    },
+    map: Record<string,{difficulty: number}>;
+    difficulty_pool: { list: number[] };
     vote_table:{
         value:Record<PlayerID,number>
     }
