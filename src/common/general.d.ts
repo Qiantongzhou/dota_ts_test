@@ -45,9 +45,19 @@ interface CustomNetTableDeclarations {
     hero_data_table: Record<string,Record<string, HeroInfo>>;
     hero_table: Record<string, number[]>;
     selected_abilitys_table: Record<string, string[]>;
-    ability_pool:
-      Record<string,Record<string, string[]>>;
-      player_hero_table:Record<string,{hero:string}>;
+    ability_pool:Record<string,Record<string, string[]>>;
+    player_hero_table:Record<string,{hero:string}>;
+        /*  TRUE when a player clicks READY  */
+    ready_table     : Record<string, { ready: boolean }>;
+    boss_rush: {
+        /** Updated ~4 × sec so Panorama can draw a bar. */
+        state: {
+          nextSpawn: number;     // absolute GameTime seconds
+          pausedUntil: number;   // 0 if not paused, otherwise resume-time
+          stopCooldown: number;  // absolute GameTime when host may click again
+        };
+      };
+
 }
 // hero_loader.ts  – server-side (VS Lua or TypeScript) -------------------------
 interface HeroInfo {

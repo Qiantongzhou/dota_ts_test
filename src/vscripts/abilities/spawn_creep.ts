@@ -69,12 +69,12 @@ export class spawn_creep extends BaseAbility {
             );
 
             if (creep!=null) {
-              creep.AddNewModifier(
-                creep,
-                undefined,
-                "modifier_creep_upgrade",
-                {}
-              );
+              // creep.AddNewModifier(
+              //   creep,
+              //   undefined,
+              //   "modifier_creep_upgrade",
+              //   {}
+              // );
               creep.SetForceAttackTarget(caster);
             }
           }

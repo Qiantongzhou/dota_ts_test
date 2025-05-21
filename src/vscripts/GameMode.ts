@@ -1,7 +1,10 @@
 import { reloadable } from "./lib/tstl-utils";
 import { xpTable,drawHeroPool,loadHeroData,initNetTables,selectDifficulty } from "./lib/huizhou_lib/init";
 import { heroPool } from "./lib/huizhou_lib/hero_pool";
+import { abilityPool } from "./lib/huizhou_lib/ability_pool";
+import { onPlayerReady } from "./lib/huizhou_lib/game_ready";
 import { OnAbilitySelected,OnAbilityRemove,MAX_ABILITIES} from "./lib/huizhou_lib/ability_select"
+import { onHostStopWave } from "./lib/huizhou_lib/boss_rush";
 declare global {
     interface CDOTAGameRules {
         Addon: GameMode;
@@ -22,6 +25,17 @@ export class GameMode {
         PrecacheResource("particle", "particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", context);
         PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_meepo.vsndevts", context);
         PrecacheResource("particle", "particles/units/heroes/hero_ember_spirit/ember_spirit_flameguard.vpcf", context);
+        // 1) Gather every unique ability name into a Set
+        const uniq = new Set<string>();
+        for (const list of Object.keys(abilityPool)) {
+             uniq.add(list);
+        }
+
+        // 2) Block-load each ability’s KV, particles & sounds
+        for (const name of uniq) {
+            PrecacheUnitByNameSync(name, context);   // engine loads ability & its "precache" block
+            print("precache "+name)
+        }
     }
 
     public static Activate(this: void) {
@@ -50,6 +64,14 @@ export class GameMode {
             "difficulty_selected",
             (_, args) => selectDifficulty(args as CustomGameEventDeclarations["difficulty_selected"])
           );
+        CustomGameEventManager.RegisterListener(
+            "player_ready", 
+            (_, args) =>onPlayerReady(args as CustomGameEventDeclarations["player_ready"])
+        );
+        CustomGameEventManager.RegisterListener(
+            "onHostStopWave", 
+            (_, args) =>onHostStopWave(args as CustomGameEventDeclarations["onHostStopWave"])
+        );
     }
 
     private configure(): void {
@@ -61,7 +83,7 @@ export class GameMode {
     
         GameRules.SetCustomGameSetupAutoLaunchDelay(1.0)
         GameRules.SetHeroSelectionTime(20000.0)
-        GameRules.SetStrategyTime(10.0)
+        GameRules.SetStrategyTime(20.0)
         GameRules.SetPreGameTime(5000.0)
         GameRules.SetShowcaseTime(0.0)
 
@@ -84,6 +106,7 @@ export class GameMode {
     }
 
     public OnStateChange(): void {
+        
         const state = GameRules.State_Get();
         
         if (IsInToolsMode() && state == GameState.CUSTOM_GAME_SETUP) {
@@ -99,25 +122,22 @@ export class GameMode {
             }
         }
         if (state === GameState.PRE_GAME) { 
-            
+            print("prepre")
             // Iterate through all player IDs
-            Timers.CreateTimer(0.2, ()=>{
+            Timers.CreateTimer(1, ()=>{
             for (let playerID = 0; playerID < DOTA_MAX_PLAYERS; playerID++) {
                
                 if (PlayerResource.IsValidPlayerID(playerID)) {
                     const hero = PlayerResource.GetSelectedHeroEntity(playerID);
+
                     if (hero && hero.IsRealHero() && !hero.IsIllusion()) {
-                        // Check if the hero already has the ability
-                        if (!hero.HasAbility("spawn_creep")) {
-                            const ability = hero.AddAbility("spawn_creep");
-                            if (ability!=null) {
-                                ability.SetLevel(1); // Set the ability to level 1
-                            }
-                        }
+ 
+   
                     }
                 }
-            }}
-            );
+            }
+        }
+        );
         }
 
         // Start game once pregame hits
@@ -144,7 +164,33 @@ export class GameMode {
         const npc = EntIndexToHScript(event.entindex) as CDOTA_BaseNPC;
 
         // Check if the spawned unit is a real hero and not an illusion
+        if(GameRules.State_Get()==GameState.PRE_GAME){
         if (npc.IsRealHero() && !npc.IsIllusion()) {
+            print(npc.GetPlayerOwnerID())
+            const temp = CustomNetTables.GetTableValue("selected_abilitys_table", tostring(npc.GetPlayerOwnerID()));
+            const picks: string[] = Object.values(temp as Record<string, string>)
+            if (!picks) return;
+            print("A")
+            /* 1️⃣  remove native abilities (except facets & talents) */
+            for (let slot = 0; slot < 18; ++slot) {
+            const ab = npc.GetAbilityByIndex(slot);
+            if (!ab) continue;
+            const name = ab.GetAbilityName();
+
+            /* keep talents & attribute bonus (plain-text rule) */
+            if (name.startsWith("special_bonus_") || name === "generic_hidden") continue;
+            
+            /* keep the new facet ability: flagged as "innate" in KV */
+            //if (ab.GetAbilityType && ab.GetAbilityType() === AbilityTypes.BASIC ) continue;                            // keep facets, talents
+            npc.RemoveAbility(ab.GetAbilityName());
+            
+            }
+            /* 2️⃣  add custom picks */
+            for (const abName of picks) {
+            print("player "+npc.GetPlayerOwnerID()+" add ability: "+abName)
+            const newAb = npc.AddAbility(abName);
+            
+            }
             // Ensure the ability isn't already added
             if (!npc.HasAbility("spawn_creep")) {
                 const ability = npc.AddAbility("spawn_creep");
@@ -153,6 +199,7 @@ export class GameMode {
                 }
             }
         }
+    }
     }
     
     private OnAbilitySelected(event:CustomGameEventDeclarations){

@@ -40,6 +40,11 @@ interface CustomGameEventDeclarations {
     ability_selected:{playerId:PlayerID;ability:any;heroName:any};
     ability_sync     : {};   
     ability_unselected: { player_id: PlayerID; ability: string };
-
+    player_ready       : { player_id: PlayerID;};                      // ⬅ new
+    all_ready          : { countdown: number };    // server ▶ everyone
+    close_selection_panel:{}
+    onHostStopWave:{
+        PlayerID: PlayerID;
+    }
     // …add more events as your UI grows
 }

@@ -11,5 +11,7 @@
     "selected_abilitys_table",
     "ability_pool",
     "player_hero_table",
+    "ready_table",
+    "boss_rush"
     ]
 }

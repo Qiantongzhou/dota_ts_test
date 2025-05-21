@@ -100,7 +100,7 @@ export class modifier_auto_cast extends BaseModifier {
         undefined,
         700,
         UnitTargetTeam.ENEMY,
-        UnitTargetType.CREEP | UnitTargetType.HERO,
+        UnitTargetType.CREEP,
         UnitTargetFlags.NONE,
         FindOrder.CLOSEST,
         false
@@ -168,7 +168,8 @@ export class modifier_auto_cast extends BaseModifier {
       for (let i = 0; i < abilityCount; i++) {
         const ability = caster.GetAbilityByIndex(i);
         if (
-          ability &&
+          ability && 
+          caster.IsAlive()&&
           !ability.IsHidden() &&
           !ability.IsPassive() &&
           !ability.IsToggle() &&
@@ -202,13 +203,15 @@ export class modifier_auto_cast extends BaseModifier {
                 goodHero[Math.floor(Math.random() * goodHero.length)]
               );
             } catch {}
+            
             caster.CastAbilityImmediately(ability, 0);
           } else if (
-            (ability.GetBehavior() && AbilityBehavior.NO_TARGET) !== 0
+            ability.GetBehaviorInt() == AbilityBehavior.NO_TARGET
           ) {
             caster.CastAbilityImmediately(ability, 0);
           } else if (enemy.length > 0) {
             try {
+              
               caster.SetCursorCastTarget(
                 enemy[Math.floor(Math.random() * enemy.length)]
               );

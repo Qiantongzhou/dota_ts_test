@@ -394,6 +394,7 @@ function tryReady() {
         return;
     }
     GameEvents.SendCustomGameEventToServer("hero_selected", {playerId:localID, hero: selected });
+    GameEvents.SendCustomGameEventToServer("player_ready", {player_id:localID});
     $.Msg("ui.pick_play");
 }
 
@@ -592,7 +593,8 @@ function buildDifficultyButtons(levels: number[]) {
   lvlcol.RemoveAndDeleteChildren();          // wipe any old build
   levels.forEach(diff => {
     const btn = $.CreatePanel("Panel", lvlcol, `Diff_${diff}`);
-    btn.style.width  = btn.style.height = "56px";
+    btn.style.width  = "100%";
+    btn.style.height = "56px";
     btn.style.marginBottom = "12px";
     btn.style.border       = "2px solid #0008";
     btn.style.borderRadius = "4px";
@@ -612,10 +614,16 @@ function buildDifficultyButtons(levels: number[]) {
     const interactive = () => localID === hostID;
 
     btn.SetPanelEvent("onmouseover", () => {
-      if (interactive()) btn.style.transform = "scale3d(1.08,1.08,1)";
+      if (interactive()) {btn.style.transform = "scale3d(1.08,1.08,1)"
+        btn.style.backgroundColor="#d1b35b";
+        lbl.style.color           = "black";
+      };
     });
     btn.SetPanelEvent("onmouseout", () => {
-      if (interactive()) btn.style.transform = "scale3d(1,1,1)";
+      if (interactive()) {btn.style.transform = "scale3d(1,1,1)";
+      btn.style.backgroundColor="#3b4249";
+      lbl.style.color           = "#e8e8e8";
+    }
     });
     btn.SetPanelEvent("onactivate", () => {
       if (!interactive()) {
@@ -641,6 +649,9 @@ function highlightDifficulty(diff: number) {
     p.style.border = isSel
       ? "3px solid #d1b35b"  // gold highlight
       : "2px solid #0008";
+      p.style.backgroundColor= isSel
+      ? "#d1b35b"  // gold highlight
+      : "#3b4249";
   });
 }
 
@@ -668,3 +679,9 @@ syncFromMapInfo(startMapInfo as any);
 
 const poolRow = CustomNetTables.GetTableValue("difficulty_pool", "list") as { list:number[] }|undefined;
 buildDifficultyButtons(poolRow?.list ?? [0,1,2,3,4]);  // default 5 levels if none sent
+
+GameEvents.Subscribe("close_selection_panel", () => {
+  root.style.opacity="0";
+  root.style.transition="opacity 0.25s ease-in-out 0s;";
+  $.Schedule(0.25, () => root.DeleteAsync(0));  // remove after 250 ms
+});
